@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ŞEHZADE MEDIA</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:linear-gradient(120deg,#07101f,#102c48,#09121e);color:white;font-family:Arial,sans-serif}
+header{padding:18px 5%;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #38516b}
+.logo{color:#eac98c;font-size:24px;font-weight:bold;letter-spacing:2px}
+main{padding:25px 5%}
+.hero{background:linear-gradient(110deg,#101d31,#23537b);padding:30px;border-radius:16px;margin-bottom:24px}
+h1{font-size:30px;margin:0 0 10px}
+p{color:#bed0e3}
+nav{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:25px}
+button{background:#172b43;color:white;border:1px solid #486381;border-radius:10px;padding:14px;cursor:pointer;font-size:16px}
+button:focus,.selected{background:#195b9e;outline:3px solid #69baff}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}
+.tile{height:95px;font-weight:bold;font-size:18px}
+footer{padding:18px;color:#b6cbe0;font-size:13px}
+@media(max-width:600px){.grid{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<header><span class="logo">ŞEHZADE MEDIA</span><span>W213 • APTV</span></header>
+<main>
+<div class="hero"><h1 id="title">Türkiye'nin Medya Merkezi</h1><p>Canlı TV • YouTube • Radyo • Çocuk</p></div>
+<nav id="menu"></nav>
+<div class="grid" id="grid"></div>
+</main>
+<footer id="status">Kumanda testi: Çevir → Seç → Geri</footer>
+<script>
+const sections={
+"Canlı TV":["TRT 1","ATV","Kanal D","Show TV","TV8","NOW","TRT Haber","TRT Spor"],
+"YouTube":["Haberler","Spor","Müzik","Belgesel","Eğitim","Teknoloji"],
+"Radyo":["TRT FM","TRT Radyo 1","PowerTürk","Metro FM","JoyTürk","Kral Pop"],
+"Çocuk":["TRT Çocuk","Çizgi Filmler","Bilim","Masallar","Eğitim","Hayvanlar"]
+};
+let page="Canlı TV",index=0;
+const grid=document.getElementById("grid");
+const menu=document.getElementById("menu");
+const status=document.getElementById("status");
+function render(){
+menu.innerHTML="";
+Object.keys(sections).concat(["Favoriler","Kumanda Testi"]).forEach(name=>{
+let b=document.createElement("button");
+b.textContent=name;
+b.onclick=()=>{page=name;index=0;render()};
+menu.appendChild(b);
+});
+let list=page==="Favoriler"?JSON.parse(localStorage.favs||"[]"):page==="Kumanda Testi"?["Test 1","Test 2","Test 3","Test 4"]:sections[page]||[];
+grid.innerHTML="";
+list.forEach((name,i)=>{
+let b=document.createElement("button");
+b.className="tile"+(i===index?" selected":"");
+b.textContent=name;
+b.onclick=()=>{index=i;select()};
+b.oncontextmenu=e=>{e.preventDefault();favorite(name)};
+grid.appendChild(b);
+});
+document.getElementById("title").textContent=page;
+status.textContent="Seçili: "+(list[index]||"Yok")+" | Döndür: kaydır | Bas: seç";
+}
+function favorite(name){
+let f=JSON.parse(localStorage.favs||"[]");
+if(!f.includes(name))f.push(name);
+localStorage.favs=JSON.stringify(f);
+render();
+}
+function select(){
+let list=page==="Kumanda Testi"?["Test 1","Test 2","Test 3","Test 4"]:page==="Favoriler"?JSON.parse(localStorage.favs||"[]"):sections[page]||[];
+let name=list[index];if(!name)return;
+status.textContent="Seçim algılandı: "+name;
+if(page==="Kumanda Testi")return;
+if(page==="YouTube"||page==="Çocuk"){
+window.open("https://www.youtube.com/results?search_query="+encodeURIComponent(name),"_blank");
+}else{
+alert(name+" seçildi. Resmî yayın bağlantısı sonraki sürümde eklenecek.");
+}
+}
+document.addEventListener("keydown",e=>{
+if(["ArrowDown","ArrowRight"].includes(e.key)){e.preventDefault();index=(index+1)%grid.children.length;render()}
+if(["ArrowUp","ArrowLeft"].includes(e.key)){e.preventDefault();index=(index-1+grid.children.length)%grid.children.length;render()}
+if(e.key==="Enter")select();
+if(e.key==="Escape"||e.key==="Backspace"){page="Canlı TV";index=0;render()}
+});
+let last=0;
+document.addEventListener("wheel",e=>{
+if(Date.now()-last<200)return;
+last=Date.now();
+index=(index+(e.deltaY>0?1:-1)+grid.children.length)%grid.children.length;
+render();
+},{passive:true});
+render();
+</script>
+</body>
+</html>
