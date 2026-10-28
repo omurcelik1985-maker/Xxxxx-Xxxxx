@@ -39,6 +39,194 @@ footer{position:fixed;bottom:0;left:0;right:0;background:#061322f5;border-top:1p
 @media(max-width:550px){header{min-height:130px}.menu{min-height:85px}.menu .emoji{font-size:26px}.grid{grid-template-columns:repeat(2,1fr)}#status{display:none}}
 </style>
 </head>
+<style>
+#sehzadePlayer{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:99999;
+  background:#061322;
+  color:white;
+  padding:18px;
+  font-family:Arial,sans-serif;
+}
+#sehzadePlayer .playerTop{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:12px;
+}
+#sehzadePlayer video{
+  width:100%;
+  max-height:65vh;
+  background:black;
+  border:1px solid #d7b678;
+  border-radius:12px;
+}
+#sehzadePlayer .playerButtons{
+  display:flex;
+  gap:12px;
+  justify-content:center;
+  flex-wrap:wrap;
+  margin-top:16px;
+}
+#sehzadePlayer button{
+  padding:14px 20px;
+  background:#163a5a;
+  color:white;
+  border:1px solid #8bbce3;
+  border-radius:10px;
+  font-size:16px;
+}
+#sehzadePlayer button:focus{
+  outline:3px solid #39aaff;
+}
+</style>
+
+<div id="sehzadePlayer">
+  <div class="playerTop">
+    <h2 id="playerTitle">Canlı TV</h2>
+    <button onclick="closePlayer()">✕ Kapat</button>
+  </div>
+
+  <video id="liveVideo"
+         controls
+         playsinline
+         preload="none">
+  </video>
+
+  <p id="playerMessage">
+    Yayın hazırlanıyor...
+  </p>
+
+  <div class="playerButtons">
+    <button onclick="changeChannel(-1)">
+      ⏮ Önceki Kanal
+    </button>
+    <button onclick="togglePlayback()">
+      ⏯ Oynat / Duraklat
+    </button>
+    <button onclick="changeChannel(1)">
+      Sonraki Kanal ⏭
+    </button>
+    <button onclick="fullScreenPlayer()">
+      ⛶ Tam Ekran
+    </button>
+  </div>
+</div>
+
+<script>
+const SEHZADE_STREAMS = {
+  "TRT 1": "",
+  "TRT Spor": "",
+  "ATV": "",
+  "Kanal D": "",
+  "Show TV": "",
+  "Star TV": "",
+  "NOW": "",
+  "TV8": "",
+  "TRT Haber": "",
+  "A Haber": "",
+  "NTV": "",
+  "TRT Belgesel": ""
+};
+
+let activeChannelIndex = 0;
+let playerOpen = false;
+
+function openPlayer(channelName){
+  const channels = Object.keys(SEHZADE_STREAMS);
+  const index = channels.indexOf(channelName);
+
+  if(index < 0) return;
+
+  activeChannelIndex = index;
+  playerOpen = true;
+
+  document.getElementById("sehzadePlayer")
+    .style.display = "block";
+
+  loadChannel();
+}
+
+function loadChannel(){
+  const channels = Object.keys(SEHZADE_STREAMS);
+  const name = channels[activeChannelIndex];
+  const url = SEHZADE_STREAMS[name];
+  const video = document.getElementById("liveVideo");
+  const message = document.getElementById("playerMessage");
+
+  video.pause();
+  video.removeAttribute("src");
+  video.load();
+
+  document.getElementById("playerTitle")
+    .textContent = "📺 " + name;
+
+  if(!url){
+    message.textContent =
+      "Bu kanalın doğrudan yayın bağlantısı henüz eklenmedi.";
+    return;
+  }
+
+  video.src = url;
+  message.textContent = "Yayın yükleniyor...";
+
+  video.play().then(()=>{
+    message.textContent = "Canlı yayın oynatılıyor";
+  }).catch(()=>{
+    message.textContent =
+      "Yayın otomatik başlamadı veya tarayıcı desteklemiyor.";
+  });
+}
+
+function changeChannel(direction){
+  const count = Object.keys(SEHZADE_STREAMS).length;
+  activeChannelIndex =
+    (activeChannelIndex + direction + count) % count;
+  loadChannel();
+}
+
+function togglePlayback(){
+  const video = document.getElementById("liveVideo");
+  if(video.paused) video.play().catch(()=>{});
+  else video.pause();
+}
+
+function fullScreenPlayer(){
+  const video = document.getElementById("liveVideo");
+  if(video.requestFullscreen) video.requestFullscreen();
+  else if(video.webkitEnterFullscreen)
+    video.webkitEnterFullscreen();
+}
+
+function closePlayer(){
+  const video = document.getElementById("liveVideo");
+  video.pause();
+  video.removeAttribute("src");
+  video.load();
+
+  document.getElementById("sehzadePlayer")
+    .style.display = "none";
+  playerOpen = false;
+}
+
+/* Mevcut kanal seçimlerini dahili oynatıcıya bağla */
+if(typeof openItem === "function"){
+  const originalOpenItem = openItem;
+
+  openItem = function(item){
+    if(item && Object.prototype.hasOwnProperty.call(
+      SEHZADE_STREAMS,item[0]
+    )){
+      openPlayer(item[0]);
+      return;
+    }
+    return originalOpenItem(item);
+  };
+}
+</script>
+
 <body>
 <header>
 <div class="logo">♛ ŞEHZADE <span>MEDIA</span></div>
