@@ -6,102 +6,104 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#071525">
 <title>ŞEHZADE MEDIA</title>
+
+<script src="https://cdn.jsdelivr.net/npm/hls.js@1/dist/hls.min.js"></script>
+
 <style>
 :root{
   --bg:#071525;
-  --panel:#102a43;
+  --panel:#102c46;
   --gold:#e9c57d;
-  --blue:#38aaff;
-  --muted:#b6c9db;
+  --blue:#39aaff;
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
 body{
   margin:0;
-  background:linear-gradient(145deg,#071525,#102b46,#06101c);
+  background:linear-gradient(145deg,#071525,#123454);
   color:white;
-  font-family:Arial,Helvetica,sans-serif;
+  font-family:Arial,sans-serif;
 }
 button,input{font-family:inherit}
 button{cursor:pointer;color:white}
 header{
-  min-height:190px;
-  padding:25px 4%;
+  min-height:185px;
+  padding:24px 4%;
   background:
-    linear-gradient(90deg,#061322e8,#06132255),
+    linear-gradient(90deg,#061322ee,#06132255),
     url("sehzade_istanbul_banner.jpg") center/cover;
-  border-bottom:2px solid #a98b57;
+  border-bottom:2px solid #b99b65;
 }
 .logo{
-  color:var(--gold);
   font-size:clamp(27px,4vw,43px);
+  color:var(--gold);
   font-weight:900;
   letter-spacing:2px;
   text-shadow:0 3px 12px #000;
 }
 .logo span{color:white;font-weight:400}
-.subtitle{margin-top:10px;letter-spacing:2px;font-size:12px}
-#clock{margin-top:22px;font-size:17px}
-main{padding:18px 4% 105px}
-nav{
+.subtitle{
+  margin-top:10px;
+  letter-spacing:2px;
+  font-size:12px;
+}
+#clock{margin-top:20px}
+main{padding:20px 4% 105px}
+nav,.grid{
   display:grid;
-  grid-template-columns:repeat(6,minmax(0,1fr));
   gap:12px;
 }
+nav{grid-template-columns:repeat(6,minmax(0,1fr))}
+.grid{grid-template-columns:repeat(6,minmax(0,1fr))}
 .menu,.tile,.control{
-  background:linear-gradient(145deg,#193b59,#0b1c30);
-  border:1px solid #52718b;
-  border-radius:13px;
+  border:1px solid #547b9a;
+  border-radius:12px;
+  background:linear-gradient(145deg,#193e5f,#0b2036);
 }
 .menu{
-  padding:15px 8px;
-  min-height:108px;
-  font-size:16px;
-  font-weight:bold;
-}
-.emoji{display:block;font-size:31px;margin-bottom:9px}
-.menu.active{border-color:var(--gold)}
-.selected,button:focus-visible{
-  outline:3px solid var(--blue)!important;
-  box-shadow:0 0 16px #38aaff88;
-}
-h2{font-size:21px;margin:25px 0 14px}
-.grid{
-  display:grid;
-  grid-template-columns:repeat(6,minmax(0,1fr));
-  gap:12px;
+  padding:15px 6px;
+  min-height:105px;
+  font-size:15px;
 }
 .tile{
   position:relative;
   min-height:112px;
-  padding:14px 8px;
+  padding:15px 8px;
   font-size:15px;
-  font-weight:bold;
 }
-.star{
-  position:absolute;
-  top:3px;
-  right:4px;
-  background:transparent;
-  border:0;
-  color:var(--gold);
-  font-size:22px;
-  padding:3px;
+.emoji{
+  display:block;
+  font-size:29px;
+  margin-bottom:10px;
 }
+.menu.active{border-color:var(--gold)}
+.selected,button:focus-visible{
+  outline:3px solid var(--blue)!important;
+  box-shadow:0 0 14px #39aaff88;
+}
+h2{font-size:21px}
 .bar{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  gap:12px;
+  gap:10px;
 }
 #search{
-  background:#112c45;
-  color:white;
-  border:1px solid #6284a1;
-  border-radius:9px;
+  width:220px;
+  max-width:45vw;
   padding:12px;
-  width:230px;
-  max-width:43vw;
+  border:1px solid #6084a1;
+  border-radius:9px;
+  background:#102b45;
+  color:white;
+}
+.star{
+  position:absolute;
+  right:4px;
+  top:3px;
+  background:none;
+  border:0;
+  color:var(--gold);
+  font-size:23px;
 }
 .control{
   padding:13px 17px;
@@ -112,17 +114,18 @@ footer{
   bottom:0;
   left:0;
   right:0;
+  width:100%;
+  z-index:20;
   background:#061322f5;
-  border-top:1px solid #587b96;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
+  border-top:1px solid #53718b;
   padding:12px 4%;
-  z-index:10;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
 }
 #status{
-  color:var(--muted);
+  color:#b9cddd;
   font-size:12px;
   text-align:center;
 }
@@ -130,10 +133,10 @@ footer{
   display:none;
   position:fixed;
   inset:0;
-  background:#061322;
   z-index:100;
-  padding:16px 3%;
   overflow:auto;
+  background:#061322;
+  padding:16px 3%;
 }
 #player.open{display:block}
 .player-head{
@@ -143,31 +146,29 @@ footer{
   gap:12px;
 }
 #video{
-  display:block;
   width:100%;
-  height:auto;
-  max-height:66vh;
+  max-height:65vh;
   aspect-ratio:16/9;
-  background:#000;
+  background:black;
   border:1px solid var(--gold);
   border-radius:12px;
 }
 #playerMessage{
-  color:#c3d4e5;
+  color:#c4d6e5;
   text-align:center;
   min-height:24px;
 }
-.player-actions{
+.actions{
   display:flex;
-  justify-content:center;
   flex-wrap:wrap;
   gap:12px;
+  justify-content:center;
 }
-.notice{
-  color:var(--muted);
+.note{
+  color:#a8bfd2;
   font-size:12px;
-  line-height:1.6;
   margin-top:25px;
+  line-height:1.6;
 }
 @media(max-width:950px){
   nav{grid-template-columns:repeat(3,1fr)}
@@ -175,34 +176,38 @@ footer{
 }
 @media(max-width:550px){
   header{min-height:145px}
-  .menu{min-height:85px}
-  .menu .emoji{font-size:25px}
   .grid{grid-template-columns:repeat(2,1fr)}
+  .menu{min-height:85px}
   #status{display:none}
   .control{padding:12px 9px}
 }
 </style>
 </head>
-<body>
 
+<body>
 <header>
   <div class="logo">♛ ŞEHZADE <span>MEDIA</span></div>
-  <div class="subtitle">TV · RADYO · YOUTUBE · ÇOCUK · FAVORİLER</div>
+  <div class="subtitle">
+    TV · RADYO · YOUTUBE · ÇOCUK · FAVORİLER
+  </div>
   <div id="clock"></div>
 </header>
 
 <main>
   <nav id="nav"></nav>
+
   <div class="bar">
-    <h2 id="heading">Canlı TV</h2>
+    <h2 id="heading">📺 Canlı TV</h2>
     <input id="search" placeholder="İçerik ara">
   </div>
-  <div class="grid" id="cards"></div>
+
+  <div id="cards" class="grid"></div>
   <div id="extra"></div>
-  <p class="notice">
-    Yayınlar yalnızca sağlayıcıların izin verdiği akışlar
-    üzerinden oynatılabilir. Araç ekranında video
-    yalnızca park hâlindeyken kullanılmalıdır.
+
+  <p class="note">
+    Canlı yayınlar, yayın sağlayıcısının erişim iznine
+    ve tarayıcının video desteğine bağlıdır.
+    Araç ekranında video yalnızca park hâlindeyken kullanılmalıdır.
   </p>
 </main>
 
@@ -212,58 +217,78 @@ footer{
   <button class="control" onclick="listen()">🎙️ Sesli Komut</button>
 </footer>
 
-<div id="player">
+<section id="player">
   <div class="player-head">
-    <h2 id="playerTitle">📺 Canlı TV</h2>
+    <h2 id="playerTitle">Canlı Yayın</h2>
     <button class="control" onclick="closePlayer()">✕ Kapat</button>
   </div>
+
   <video id="video" controls playsinline preload="none"></video>
-  <p id="playerMessage"></p>
-  <div class="player-actions">
+
+  <p id="playerMessage">Yayın hazırlanıyor...</p>
+
+  <div class="actions">
     <button class="control" onclick="changeChannel(-1)">⏮ Önceki</button>
     <button class="control" onclick="togglePlayback()">⏯ Oynat / Duraklat</button>
     <button class="control" onclick="changeChannel(1)">Sonraki ⏭</button>
     <button class="control" onclick="fullScreenPlayer()">⛶ Tam Ekran</button>
     <button class="control" onclick="favoriteActive()">☆ Favori</button>
   </div>
-</div>
+</section>
 
 <script>
 "use strict";
 
+const $ = id => document.getElementById(id);
+
 /*
-  İzin verilen doğrudan yayın bağlantıları buraya eklenir.
-  Boş bağlantı bulunan kanalda oynatıcı açılır,
-  fakat canlı görüntü başlamaz.
+  TRT yayın adresleri:
+  Kamuya açık olarak kullanılan HLS bağlantılarıdır.
+  Çalışmaları veya sürekli erişilebilir olmaları garanti değildir.
 */
 const STREAMS = {
-  "TRT 1":"",
-  "TRT Spor":"",
+  "TRT 1":
+    "https://tv-trt1.medya.trt.com.tr/master.m3u8",
+  "TRT Spor":
+    "https://tv-trtspor.medya.trt.com.tr/master_720.m3u8",
+  "TRT Haber":
+    "https://tv-trt-haber.medya.trt.com.tr/master_720.m3u8",
+  "TRT Belgesel":
+    "https://tv-trtbelgesel.medya.trt.com.tr/master_720.m3u8",
   "ATV":"",
   "Kanal D":"",
   "Show TV":"",
   "Star TV":"",
   "NOW":"",
   "TV8":"",
-  "TRT Haber":"",
   "A Haber":"",
-  "NTV":"",
-  "TRT Belgesel":""
+  "NTV":""
+};
+
+const RADIO_STREAMS = {
+  "TRT FM":"",
+  "TRT Radyo 1":"",
+  "PowerTürk":"",
+  "Metro FM":"",
+  "JoyTürk":"",
+  "Kral Pop":"",
+  "SlowTürk":"",
+  "Radyo 7":""
 };
 
 const tv = [
   ["TRT 1","📺","tv"],
   ["TRT Spor","⚽","tv"],
+  ["TRT Haber","📰","tv"],
+  ["TRT Belgesel","🌍","tv"],
   ["ATV","📺","tv"],
   ["Kanal D","📺","tv"],
   ["Show TV","📺","tv"],
   ["Star TV","⭐","tv"],
   ["NOW","📺","tv"],
   ["TV8","📺","tv"],
-  ["TRT Haber","📰","tv"],
   ["A Haber","📰","tv"],
-  ["NTV","📰","tv"],
-  ["TRT Belgesel","🌍","tv"]
+  ["NTV","📰","tv"]
 ];
 
 const radio = [
@@ -281,7 +306,7 @@ const youtube = [
   ["YouTube","▶️","https://m.youtube.com/"],
   ["Eskişehirspor","⚽","yt:Eskişehirspor"],
   ["Spor Özetleri","🏆","yt:spor özetleri"],
-  ["Müzik","🎸","yt:Türkçe müzik"],
+  ["Türkçe Müzik","🎸","yt:Türkçe müzik"],
   ["Belgeseller","🌍","yt:Türkçe belgesel"],
   ["Otomobil","🚘","yt:otomobil inceleme"]
 ];
@@ -304,15 +329,16 @@ const sections = [
   ["Sesli Komut","🎙️",[]]
 ];
 
-const all = [...tv,...radio,...youtube,...kids];
-const $ = id => document.getElementById(id);
+const allItems = [...tv,...radio,...youtube,...kids];
 
 let page = 0;
 let selected = 0;
 let focusList = [];
 let lastWheel = 0;
-let activeIndex = 0;
+
 let activeType = "tv";
+let activeIndex = 0;
+let hls = null;
 let recognition = null;
 let favorites = [];
 
@@ -320,6 +346,7 @@ try {
   favorites = JSON.parse(
     localStorage.getItem("sehzade_favorites") || "[]"
   );
+  if (!Array.isArray(favorites)) favorites = [];
 } catch(e) {
   favorites = [];
 }
@@ -329,10 +356,12 @@ function status(message) {
 }
 
 function saveFavorites() {
-  localStorage.setItem(
-    "sehzade_favorites",
-    JSON.stringify(favorites)
-  );
+  try {
+    localStorage.setItem(
+      "sehzade_favorites",
+      JSON.stringify(favorites)
+    );
+  } catch(e) {}
 }
 
 function toggleFavorite(name) {
@@ -347,43 +376,49 @@ function toggleFavorite(name) {
 
 function currentItems() {
   if (page === 4) {
-    return all.filter(x => favorites.includes(x[0]));
+    return allItems.filter(x => favorites.includes(x[0]));
   }
+
   if (page === 5) {
     return [
       ["Dinlemeyi Başlat","🎤","voice"],
-      ["Sesli Komut Yardımı","💬","help"]
+      ["Komut Yardımı","💬","help"]
     ];
   }
+
   return sections[page][2];
 }
 
 function makeCard(item) {
-  const b = document.createElement("button");
-  b.className = "tile";
-  b.dataset.focus = "1";
+  const card = document.createElement("button");
+  card.className = "tile";
+  card.dataset.focus = "1";
 
-  const emoji = document.createElement("span");
-  emoji.className = "emoji";
-  emoji.textContent = item[1];
+  const icon = document.createElement("span");
+  icon.className = "emoji";
+  icon.textContent = item[1];
 
-  const name = document.createElement("strong");
-  name.textContent = item[0];
+  const title = document.createElement("strong");
+  title.textContent = item[0];
 
-  b.append(emoji,name);
-  b.onclick = () => openItem(item);
+  card.append(icon,title);
+  card.onclick = () => openItem(item);
 
   if (item[2] !== "voice" && item[2] !== "help") {
-    const star = document.createElement("button");
+    const star = document.createElement("span");
     star.className = "star";
-    star.textContent = favorites.includes(item[0]) ? "★" : "☆";
+    star.textContent =
+      favorites.includes(item[0]) ? "★" : "☆";
+
     star.onclick = e => {
       e.stopPropagation();
       toggleFavorite(item[0]);
     };
-    b.appendChild(star);
+
+    card.appendChild(star);
   }
-  return b;
+
+  return card;
 }
 
 function drawCards(container,items) {
@@ -393,52 +428,61 @@ function drawCards(container,items) {
 function render() {
   $("nav").replaceChildren();
 
-  sections.forEach((section,i) => {
+  sections.forEach((section,index) => {
     const b = document.createElement("button");
-    b.className = "menu" + (i === page ? " active" : "");
+    b.className =
+      "menu" + (index === page ? " active" : "");
     b.dataset.focus = "1";
-    b.innerHTML =
-      '<span class="emoji"></span><strong></strong>';
-    b.querySelector(".emoji").textContent = section[1];
-    b.querySelector("strong").textContent = section[0];
-    b.onclick = () => go(i);
+
+    const icon = document.createElement("span");
+    icon.className = "emoji";
+    icon.textContent = section[1];
+
+    const name = document.createElement("strong");
+    name.textContent = section[0];
+
+    b.append(icon,name);
+    b.onclick = () => go(index);
     $("nav").appendChild(b);
   });
 
   $("heading").textContent =
     sections[page][1] + " " + sections[page][0];
 
-  const query = $("search").value.toLocaleLowerCase("tr-TR");
+  const query =
+    $("search").value.toLocaleLowerCase("tr-TR");
 
   drawCards(
     $("cards"),
-    currentItems().filter(x =>
-      x[0].toLocaleLowerCase("tr-TR").includes(query)
+    currentItems().filter(item =>
+      item[0].toLocaleLowerCase("tr-TR").includes(query)
     )
   );
 
   $("extra").replaceChildren();
 
   if (page === 0) {
-    [
+    const groups = [
       ["📻 Popüler Radyolar",radio.slice(0,6),1],
       ["▶️ YouTube",youtube.slice(0,6),2],
       ["🧸 Çocuk İçerikleri",kids.slice(0,6),3]
-    ].forEach(group => {
-      const h = document.createElement("h2");
-      h.textContent = group[0];
+    ];
+
+    groups.forEach(group => {
+      const heading = document.createElement("h2");
+      heading.textContent = group[0];
 
       const more = document.createElement("button");
       more.className = "control";
       more.textContent = "Tümünü Gör";
       more.onclick = () => go(group[2]);
-      h.append(" ",more);
 
       const grid = document.createElement("div");
       grid.className = "grid";
       drawCards(grid,group[1]);
 
-      $("extra").append(h,grid);
+      heading.append(" ",more);
+      $("extra").append(heading,grid);
     });
   }
 
@@ -484,20 +528,23 @@ function home() {
 
 function move(direction) {
   if ($("player").classList.contains("open")) {
-    const controls = [
+    const buttons = [
       ...$("player").querySelectorAll("button")
     ];
-    if (!controls.length) return;
 
-    const focused = document.activeElement;
-    let index = controls.indexOf(focused);
-    index = (index + direction + controls.length)
-      % controls.length;
-    controls[index].focus();
+    if (!buttons.length) return;
+
+    let index = buttons.indexOf(document.activeElement);
+    index =
+      (index + direction + buttons.length)
+      % buttons.length;
+
+    buttons[index].focus();
     return;
   }
 
   refreshFocus();
+
   if (!focusList.length) return;
 
   selected =
@@ -505,6 +552,7 @@ function move(direction) {
     % focusList.length;
 
   refreshFocus();
+
   focusList[selected].scrollIntoView({
     block:"nearest"
   });
@@ -513,13 +561,8 @@ function move(direction) {
 function openItem(item) {
   if (!item) return;
 
-  if (item[2] === "tv") {
-    openPlayer(item[0],"tv");
-    return;
-  }
-
-  if (item[2] === "radio") {
-    openPlayer(item[0],"radio");
+  if (item[2] === "tv" || item[2] === "radio") {
+    openPlayer(item[0],item[2]);
     return;
   }
 
@@ -530,22 +573,29 @@ function openItem(item) {
 
   if (item[2] === "help") {
     alert(
-      'Örnek: "TRT 1 aç", "Radyo aç", ' +
-      '"YouTube aç", "Favorilerimi göster"'
+      'Sesli komut örnekleri:\n' +
+      '"TRT 1 aç"\n' +
+      '"TRT Spor aç"\n' +
+      '"Radyo aç"\n' +
+      '"Favorilerimi göster"\n' +
+      '"Ana menü"'
     );
     return;
   }
 
-  // YouTube ve diğer web içerikleri
   let url = item[2];
 
   if (url.startsWith("yt:")) {
-    url = "https://m.youtube.com/results?search_query="
-      + encodeURIComponent(url.slice(3));
+    url =
+      "https://m.youtube.com/results?search_query=" +
+      encodeURIComponent(url.slice(3));
   }
 
   const win = window.open(url,"_blank");
-  if (!win) status("Tarayıcı yeni pencereyi engelledi.");
+
+  if (!win) {
+    status("Tarayıcı yeni pencereyi engelledi.");
+  }
 }
 
 function openPlayer(name,type) {
@@ -557,49 +607,125 @@ function openPlayer(name,type) {
   if (index < 0) return;
 
   activeIndex = index;
-  $("player").classList.add("open");
 
+  $("player").classList.add("open");
   loadChannel();
+
   $("player").querySelector("button").focus();
 }
 
-function loadChannel() {
-  const list = activeType === "radio" ? radio : tv;
-  const item = list[activeIndex];
-
+function destroyStream() {
   const video = $("video");
+
   video.pause();
+
+  if (hls) {
+    hls.destroy();
+    hls = null;
+  }
+
   video.removeAttribute("src");
   video.load();
+}
+
+function loadChannel() {
+  destroyStream();
+
+  const list = activeType === "radio" ? radio : tv;
+  const item = list[activeIndex];
 
   $("playerTitle").textContent =
     item[1] + " " + item[0];
 
-  if (activeType === "radio") {
-    $("playerMessage").textContent =
-      "Radyo oynatıcısı hazır. Doğrudan ses akışı " +
-      "henüz tanımlanmadı.";
-    return;
-  }
-
-  const url = STREAMS[item[0]];
+  const url = activeType === "radio"
+    ? RADIO_STREAMS[item[0]]
+    : STREAMS[item[0]];
 
   if (!url) {
     $("playerMessage").textContent =
-      "Bu kanalın doğrudan canlı yayın bağlantısı " +
-      "henüz eklenmedi.";
+      "Bu kanalın doğrudan yayın bağlantısı henüz " +
+      "tanımlanmadı.";
+    return;
+  }
+
+  $("playerMessage").textContent =
+    "Canlı yayın bağlanıyor...";
+
+  const video = $("video");
+
+  video.onerror = () => {
+    $("playerMessage").textContent =
+      "Yayın açılamadı. Bağlantı veya tarayıcı " +
+      "desteği kontrol edilmeli.";
+  };
+
+  if (url.includes(".m3u8")) {
+    // Önce tarayıcının yerel HLS desteğini dene
+    if (
+      video.canPlayType(
+        "application/vnd.apple.mpegurl"
+      )
+    ) {
+      video.src = url;
+      startVideo();
+      return;
+    }
+
+    // Yerel HLS yoksa HLS.js kullan
+    if (
+      window.Hls &&
+      Hls.isSupported()
+    ) {
+      hls = new Hls({
+        enableWorker:true,
+        lowLatencyMode:false,
+        maxBufferLength:20
+      });
+
+      hls.loadSource(url);
+      hls.attachMedia(video);
+
+      hls.on(Hls.Events.MANIFEST_PARSED,() => {
+        startVideo();
+      });
+
+      hls.on(Hls.Events.ERROR,(event,data) => {
+        if (data.fatal) {
+          $("playerMessage").textContent =
+            "Yayın hatası: " + data.type +
+            ". Bağlantı engellenmiş veya " +
+            "erişilemiyor olabilir.";
+
+          if (hls) {
+            hls.destroy();
+            hls = null;
+          }
+        }
+      });
+
+      return;
+    }
+
+    $("playerMessage").textContent =
+      "Bu tarayıcı HLS canlı yayın biçimini " +
+      "desteklemiyor.";
     return;
   }
 
   video.src = url;
-  $("playerMessage").textContent = "Yayın yükleniyor...";
+  startVideo();
+}
+
+function startVideo() {
+  const video = $("video");
 
   video.play().then(() => {
     $("playerMessage").textContent =
       "Canlı yayın oynatılıyor.";
   }).catch(() => {
     $("playerMessage").textContent =
-      "Yayın bu tarayıcıda başlatılamadı.";
+      "Oynat düğmesine basın. Yayın başlamazsa " +
+      "tarayıcı veya bağlantı engeli olabilir.";
   });
 }
 
@@ -617,12 +743,11 @@ function togglePlayback() {
   const video = $("video");
 
   if (video.paused) {
-    video.play().catch(() => {
-      $("playerMessage").textContent =
-        "Oynatılabilir yayın bulunamadı.";
-    });
+    startVideo();
   } else {
     video.pause();
+    $("playerMessage").textContent =
+      "Yayın duraklatıldı.";
   }
 }
 
@@ -642,16 +767,13 @@ function favoriteActive() {
 }
 
 function closePlayer() {
-  const video = $("video");
-  video.pause();
-  video.removeAttribute("src");
-  video.load();
-
+  destroyStream();
   $("player").classList.remove("open");
 }
 
 function command(text) {
   const s = text.toLocaleLowerCase("tr-TR");
+
   status("Duyulan: " + text);
 
   if (s.includes("favori")) {
@@ -667,8 +789,8 @@ function command(text) {
     return;
   }
 
-  const channel = [...tv,...radio].find(x =>
-    s.includes(x[0].toLocaleLowerCase("tr-TR"))
+  const channel = [...tv,...radio].find(item =>
+    s.includes(item[0].toLocaleLowerCase("tr-TR"))
   );
 
   if (channel) {
@@ -693,7 +815,7 @@ function listen() {
 
   if (!Speech) {
     alert(
-      "Bu tarayıcı Türkçe konuşma tanımayı " +
+      "Bu tarayıcı Türkçe sesli komutu " +
       "desteklemiyor olabilir."
     );
     return;
@@ -707,14 +829,17 @@ function listen() {
     recognition.continuous = false;
     recognition.interimResults = false;
 
-    recognition.onstart = () =>
+    recognition.onstart = () => {
       status("Dinliyorum...");
+    };
 
-    recognition.onresult = e =>
-      command(e.results[0][0].transcript);
+    recognition.onresult = event => {
+      command(event.results[0][0].transcript);
+    };
 
-    recognition.onerror = e =>
-      status("Mikrofon hatası: " + e.error);
+    recognition.onerror = event => {
+      status("Mikrofon hatası: " + event.error);
+    };
 
     recognition.start();
   } catch(e) {
@@ -722,33 +847,49 @@ function listen() {
   }
 }
 
-document.addEventListener("keydown",e => {
-  if (document.activeElement === $("search")) return;
+document.addEventListener("keydown",event => {
+  if (document.activeElement === $("search")) {
+    if (event.key === "Escape") {
+      $("search").blur();
+    }
+    return;
+  }
 
   if (
     ["ArrowDown","ArrowRight","ArrowUp","ArrowLeft"]
-      .includes(e.key)
+      .includes(event.key)
   ) {
-    e.preventDefault();
+    event.preventDefault();
+
     move(
-      ["ArrowDown","ArrowRight"].includes(e.key)
+      ["ArrowDown","ArrowRight"].includes(event.key)
       ? 1 : -1
     );
-  } else if (e.key === "Enter") {
-    e.preventDefault();
+  } else if (event.key === "Enter") {
+    event.preventDefault();
 
     if ($("player").classList.contains("open")) {
-      document.activeElement.click();
+      if (
+        $("player").contains(document.activeElement) &&
+        document.activeElement.tagName === "BUTTON"
+      ) {
+        document.activeElement.click();
+      } else {
+        togglePlayback();
+      }
     } else {
       refreshFocus();
+
       if (focusList[selected]) {
         focusList[selected].click();
       }
     }
   } else if (
-    e.key === "Escape" ||
-    e.key === "Backspace"
+    event.key === "Escape" ||
+    event.key === "Backspace"
   ) {
+    event.preventDefault();
+
     if ($("player").classList.contains("open")) {
       closePlayer();
     } else {
@@ -757,11 +898,11 @@ document.addEventListener("keydown",e => {
   }
 });
 
-document.addEventListener("wheel",e => {
+document.addEventListener("wheel",event => {
   if (Date.now() - lastWheel < 180) return;
-  lastWheel = Date.now();
 
-  move(e.deltaY > 0 ? 1 : -1);
+  lastWheel = Date.now();
+  move(event.deltaY > 0 ? 1 : -1);
 },{passive:true});
 
 $("search").oninput = render;
