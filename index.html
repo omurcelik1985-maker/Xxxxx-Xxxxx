@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#071427">
-<title>ŞEHZADE MEDIA V7</title>
+<title>ŞEHZADE MEDIA V7.1</title>
 <script src="https://cdn.jsdelivr.net/npm/hls.js@1/dist/hls.min.js"></script>
 <style>
 :root{--accent:#69b6ff}
@@ -98,7 +98,7 @@ header strong{font-size:21px}
 <header>
 <div>
 <strong>♛ ŞEHZADE MEDIA</strong>
-<small>MERCEDES DIGITAL COCKPIT · V7</small>
+<small>MERCEDES DIGITAL COCKPIT · V7.1</small>
 </div>
 <div>
 <div id="date"></div>
@@ -108,7 +108,7 @@ header strong{font-size:21px}
 
 <main>
 <section id="home" class="hero">
-<div class="kicker">ŞEHZADE · DIGITAL COCKPIT V7</div>
+<div class="kicker">ŞEHZADE · DIGITAL COCKPIT V7.1</div>
 <h1>PREMIUM ENTERTAINMENT</h1>
 
 <button class="mic" id="micButton" onclick="toggleVoice()">
@@ -250,17 +250,10 @@ Bu adresler önceki sürümden aktarılmıştır.
 
 const TV=[
 ["TRT 1","📺","Ulusal",["https://tv-trt1.medya.trt.com.tr/master.m3u8"]],
-["ATV","📺","Ulusal",["https://trkvz-live.daioncdn.net/atv/atv_1080p.m3u8"]],
-["Kanal D","📺","Ulusal",["https://demiroren.daioncdn.net/kanald/kanald.m3u8?app=kanald_web&ce=3"]],
-["Show TV","📺","Ulusal",["https://ciner-live.daioncdn.net/showtv/showtv.m3u8"]],
-["Star TV","⭐","Ulusal",["https://dogus-live.daioncdn.net/startv/playlist.m3u8"]],
 ["NOW TV","📺","Ulusal",["https://uycyyuuzyh.turknet.ercdn.net/nphindgytw/nowtv/nowtv.m3u8"]],
-["TV8","📺","Ulusal",["https://tv8.daioncdn.net/tv8/tv8.m3u8?app=7ddc255a-ef47-4e81-ab14-c0e5f2949788&ce=3"]],
 ["Kanal 7","📺","Ulusal",["https://kanal7-live.daioncdn.net/kanal7/kanal7.m3u8"]],
 ["Beyaz TV","📺","Ulusal",["https://beyaztv-live.daioncdn.net/beyaztv/beyaztv.m3u8"]],
 ["360 TV","📺","Ulusal",["https://turkmedya-live.ercdn.net/tv360/tv360.m3u8"]],
-["TRT Türk","🇹🇷","Ulusal",["https://tv-trtturk.medya.trt.com.tr/master_720.m3u8"]],
-["TRT Avaz","🌍","Ulusal",["https://tv-trtavaz.medya.trt.com.tr/master.m3u8"]],
 ["TRT 2","🎭","Ulusal",["https://tv-trt2.medya.trt.com.tr/master_720.m3u8"]],
 ["TRT Haber","📰","Haber",["https://tv-trthaber.medya.trt.com.tr/master.m3u8"]],
 ["Sözcü TV","📰","Haber",["https://szctvdvr.blutv.com/blutv_szctv_dvr/live_720p4350000kbps/index.m3u8"]],
@@ -269,27 +262,13 @@ const TV=[
 ["Habertürk","📰","Haber",["https://rmtftbjlne.turknet.ercdn.net/bpeytmnqyp/haberturktv/haberturktv_1080p.m3u8"]],
 ["Haber Global","🌍","Haber",["https://ensonhaber-live.ercdn.net/haberglobal/haberglobal.m3u8"]],
 ["A Haber","📰","Haber",["https://trkvz-live.ercdn.net/ahaberhd/ahaberhd.m3u8"]],
-["TV100","📰","Haber",["https://tv100-live.daioncdn.net/tv100/tv100_1080p.m3u8"]],
 ["TGRT Haber","📰","Haber",["https://canli.tgrthaber.com/tgrt.m3u8"]],
 ["24 TV","📰","Haber",["https://turkmedya-live.ercdn.net/tv24/tv24_720p.m3u8"]],
 ["Ülke TV","📰","Haber",["https://livetv.radyotvonline.net/kanal7live/ulketv/playlist.m3u8"]],
-["TVNET","📰","Haber",["https://mn-nl.mncdn.com/tvnet/tvnet/playlist.m3u8"]],
-["Tele1","📰","Haber",["https://tele1-live.ercdn.net/tele1/tele1_1080p.m3u8"]],
 ["TRT Spor","⚽","Spor",["https://tv-trtspor1.medya.trt.com.tr/master.m3u8"]],
 ["TRT Spor Yıldız","🏅","Spor",["https://tv-trtspor2.medya.trt.com.tr/master.m3u8"]],
-["TV8.5","⚽","Spor",["https://tv8.daioncdn.net/tv8bucuk/tv8bucuk_1080p.m3u8?app=tv8bucuk_web&ce=3"]],
-["A Spor","⚽","Spor",["https://rnttwmjcin.turknet.ercdn.net/lcpmvefbyo/aspor/aspor_720p.m3u8"]],
-["HT Spor","⚽","Spor",["https://ciner-live.ercdn.net/htspor/htspor.m3u8"]],
 ["Bloomberg HT","💹","Ekonomi",["https://ensonhaber-live.ercdn.net/bloomberght/bloomberght.m3u8"]],
-["A Para","💹","Ekonomi",["https://trkvz-live.ercdn.net/aparahd/aparahd.m3u8"]],
-["CNBC-e","💹","Ekonomi",["https://hnpsechtsc.turknet.ercdn.net/xpnvudnlsv/cnbc-e/cnbc-e.m3u8"]],
-["TRT Belgesel","🌍","Belgesel",["https://tv-trtbelgesel.medya.trt.com.tr/master_720.m3u8"]],
-["TLC","🌍","Belgesel",["https://dogus-live.daioncdn.net/tlc/tlc.m3u8"]],
-["DMAX","🌍","Belgesel",["https://dogus-live.daioncdn.net/dmax/dmax.m3u8"]],
-["TRT Çocuk","🧸","Çocuk",["https://tv-trtcocuk.medya.trt.com.tr/master.m3u8"]],
-["TRT Diyanet Çocuk","🌙","Çocuk",["https://tv-trtdiyanetcocuk.medya.trt.com.tr/master.m3u8"]],
-["Minika Çocuk","🐣","Çocuk",["https://trkvz-live.daioncdn.net/minikago_cocuk/minikago_cocuk.m3u8"]],
-["Minika GO","🚀","Çocuk",["https://trkvz-live.daioncdn.net/minikago/minikago.m3u8"]]
+["TRT Belgesel","🌍","Belgesel",["https://tv-trtbelgesel.medya.trt.com.tr/master_720.m3u8"]]
 ];
 
 const RADIO=[
@@ -300,14 +279,8 @@ const RADIO=[
 ["JoyTürk","🎶","Radyo",["https://playerservices.streamtheworld.com/api/livestream-redirect/JOY_TURK.mp3"]],
 ["Kral Pop","🎼","Radyo",["https://ssldyg.radyotvonline.com/smil/smil:kralpop.smil/playlist.m3u8"]],
 ["SlowTürk","💛","Radyo",["https://radyo.duhnet.tv/ak_dtvh_slowturk"]],
-["Radyo 7","📻","Radyo",["https://canliyayin.radyo7.com/;stream"]],
 ["Kafa Radyo","🎙️","Radyo",["https://moondigitalmaster.radyotvonline.net/kafaradyo/playlist.m3u8"]],
 ["Süper FM","🎵","Radyo",["https://playerservices.streamtheworld.com/api/livestream-redirect/SUPER_FM.mp3"]],
-["Alem FM","🎶","Radyo",["https://turkmedya.radyotvonline.net/alemfm/alemfm.stream/playlist.m3u8"]],
-["Best FM","🎧","Radyo",["https://bestfm.radyotvonline.net/bestfm/bestfm.stream/playlist.m3u8"]],
-["Radyo D","📻","Radyo",["https://radyod.radyotvonline.net/radyod/radyod.stream/playlist.m3u8"]],
-["Radyo Fenomen","🔥","Radyo",["https://live.radyofenomen.com/fenomen/128/icecast.audio"]],
-["Number1 FM","🎵","Radyo",["https://n10101m.mediatriple.net/numberone"]],
 ["Number1 Türk","🇹🇷","Radyo",["https://n10101m.mediatriple.net/numberoneturk"]],
 ["Virgin Radio Türkiye","🎸","Radyo",["https://playerservices.streamtheworld.com/api/livestream-redirect/VIRGIN_RADIO_TR.mp3"]],
 ["Rock FM","🎸","Radyo",["https://rockfm.radyotvonline.net/rockfm/rockfm.stream/playlist.m3u8"]],
@@ -460,6 +433,7 @@ else showList("radio");
 function step(direction){
 if(!current)return;
 const list=currentList();
+if(!list.length)return;
 let index=list.findIndex(x=>x[0]===current[0]);
 if(index<0)index=0;
 const next=list[(index+direction+list.length)%list.length];
@@ -972,7 +946,7 @@ tick();
 setInterval(tick,1000);
 
 $("footer").textContent=
-"ŞEHZADE MEDIA V7 · "+TV.length+" TV · "+
+"ŞEHZADE MEDIA V7.1 · "+TV.length+" TV · "+
 RADIO.length+" Radyo · 64 Ambiyans Rengi";
 
 document.addEventListener("keydown",e=>{
