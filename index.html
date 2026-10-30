@@ -1,779 +1,90 @@
 
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#071525">
-<title>ŞEHZADE MEDIA</title>
-<script src="https://cdn.jsdelivr.net/npm/hls.js@1/dist/hls.min.js"></script>
-<style>
-:root{
-  --gold:#e9c57d;
-  --blue:#39aaff;
-  --bg:#071525;
-}
-*{box-sizing:border-box}
-body{
-  margin:0;
-  background:linear-gradient(140deg,#071525,#143b5b);
-  color:#fff;
-  font-family:Arial,sans-serif;
-}
-button,input{font:inherit}
-button{cursor:pointer;color:white}
-header{
-  padding:24px 4%;
-  min-height:165px;
-  background:
-    linear-gradient(90deg,#061322ed,#06132255),
-    url("sehzade_istanbul_banner.jpg") center/cover;
-  border-bottom:2px solid #b99b65;
-}
-.logo{
-  color:var(--gold);
-  font-size:clamp(26px,4vw,42px);
-  font-weight:900;
-  letter-spacing:2px;
-}
-.logo span{color:white;font-weight:400}
-.sub{font-size:12px;letter-spacing:2px;margin-top:10px}
-#clock{margin-top:20px}
-main{padding:18px 4% 100px}
-nav,.grid{display:grid;gap:12px}
-nav{grid-template-columns:repeat(6,minmax(0,1fr))}
-.grid{grid-template-columns:repeat(6,minmax(0,1fr))}
-.menu,.tile,.control{
-  background:linear-gradient(145deg,#1b4567,#0b2036);
-  border:1px solid #5a7d99;
-  border-radius:12px;
-}
-.menu{
-  padding:14px 6px;
-  min-height:95px;
-  font-size:14px;
-}
-.tile{
-  position:relative;
-  min-height:105px;
-  padding:14px 6px;
-  font-size:15px;
-}
-.emoji{
-  display:block;
-  font-size:28px;
-  margin-bottom:9px;
-}
-.menu.active{border-color:var(--gold)}
-button:focus-visible,.selected{
-  outline:3px solid var(--blue)!important;
-  box-shadow:0 0 14px #39aaff88;
-}
-.bar{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
-}
-h2{font-size:21px}
-#search{
-  background:#102d48;
-  border:1px solid #6888a5;
-  color:white;
-  padding:11px;
-  border-radius:9px;
-  width:220px;
-  max-width:43vw;
-}
-.star{
-  position:absolute;
-  right:5px;
-  top:3px;
-  font-size:23px;
-  color:var(--gold);
-}
-.control{
-  padding:12px 16px;
-  font-size:15px;
-}
-footer{
-  position:fixed;
-  bottom:0;
-  left:0;
-  right:0;
-  z-index:20;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  padding:11px 4%;
-  background:#061322f5;
-  border-top:1px solid #587b96;
-}
-#status{
-  color:#bfd0df;
-  font-size:12px;
-  text-align:center;
-}
-#player{
-  display:none;
-  position:fixed;
-  inset:0;
-  z-index:100;
-  padding:15px 3%;
-  background:#061322;
-  overflow:auto;
-}
-#player.open{display:block}
-.player-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
-}
-#video{
-  display:block;
-  width:100%;
-  max-height:65vh;
-  aspect-ratio:16/9;
-  background:#000;
-  border:1px solid var(--gold);
-  border-radius:12px;
-}
-#message{
-  min-height:24px;
-  color:#c2d6e6;
-  text-align:center;
-}
-.actions{
-  display:flex;
-  justify-content:center;
-  flex-wrap:wrap;
-  gap:10px;
-}
-.note{
-  color:#b5c9d9;
-  font-size:12px;
-  line-height:1.6;
-  margin-top:24px;
-}
-@media(max-width:950px){
-  nav{grid-template-columns:repeat(3,1fr)}
-  .grid{grid-template-columns:repeat(4,1fr)}
-}
-@media(max-width:550px){
-  .grid{grid-template-columns:repeat(2,1fr)}
-  .menu{min-height:80px}
-  #status{display:none}
-  .control{padding:11px 8px}
-}
-</style>
-</head>
-<body>
-
-<header>
-  <div class="logo">♛ ŞEHZADE <span>MEDIA</span></div>
-  <div class="sub">TÜRKİYE CANLI TV · RADYO · YOUTUBE</div>
-  <div id="clock"></div>
-</header>
-
-<main>
-  <nav id="nav"></nav>
-  <div class="bar">
-    <h2 id="heading">📺 Tüm Kanallar</h2>
-    <input id="search" placeholder="Kanal ara...">
-  </div>
-  <div class="grid" id="cards"></div>
-  <p class="note">
-    Yayın bağlantıları kanal sağlayıcılarının erişim
-    politikalarına bağlıdır. Bazı yayınlar çalışmayabilir.
-    Araç ekranında video yalnızca park hâlindeyken kullanılmalıdır.
-  </p>
-</main>
-
-<footer>
-  <button class="control" onclick="home()">⌂ Ana Menü</button>
-  <span id="status">ŞEHZADE MEDIA hazır</span>
-  <button class="control" onclick="listen()">🎙️ Sesli Komut</button>
-</footer>
-
-<section id="player">
-  <div class="player-head">
-    <h2 id="playerTitle">Canlı TV</h2>
-    <button class="control" onclick="closePlayer()">✕ Kapat</button>
-  </div>
-  <video id="video" controls playsinline preload="none"></video>
-  <p id="message"></p>
-  <div class="actions">
-    <button class="control" onclick="changeChannel(-1)">⏮ Önceki</button>
-    <button class="control" onclick="togglePlayback()">⏯ Oynat</button>
-    <button class="control" onclick="changeChannel(1)">Sonraki ⏭</button>
-    <button class="control" onclick="fullScreen()">⛶ Tam Ekran</button>
-    <button class="control" onclick="favoriteActive()">☆ Favori</button>
-  </div>
-</section>
-
 <script>
-"use strict";
-const $ = id => document.getElementById(id);
+/* ŞEHZADE MEDIA - OTOMATİK TAM EKRAN */
 
-/*
- Kanal biçimi:
- [Ad, Simge, Kategori, Yayın bağlantısı]
+function sehzadeAutoFullscreen() {
+  const video = document.getElementById("video");
+  const player = document.getElementById("player");
 
- Bağlantılar kamuya açık listelerden derlenmiştir.
- Doğrudan yayın hakkı veya erişim garantisi değildir.
-*/
+  if (!video || !player) return;
 
-const TV = [
-["TRT 1","📺","Ulusal",
-"https://tv-trt1.medya.trt.com.tr/master.m3u8"],
-
-["ATV","📺","Ulusal",
-"https://trkvz-live.daioncdn.net/atv/atv_1080p.m3u8"],
-
-["Kanal D","📺","Ulusal",
-"https://demiroren.daioncdn.net/kanald/kanald.m3u8?app=kanald_web&ce=3"],
-
-["Show TV","📺","Ulusal",
-"https://ciner-live.daioncdn.net/showtv/showtv.m3u8"],
-
-["Star TV","⭐","Ulusal",
-"https://dogus-live.daioncdn.net/startv/playlist.m3u8"],
-
-["NOW TV","📺","Ulusal",
-"https://uycyyuuzyh.turknet.ercdn.net/nphindgytw/nowtv/nowtv.m3u8"],
-
-["TV8","📺","Ulusal",
-""],
-
-["Kanal 7","📺","Ulusal",
-"https://kanal7-live.daioncdn.net/kanal7/kanal7.m3u8"],
-
-["Beyaz TV","📺","Ulusal",
-"https://beyaztv-live.daioncdn.net/beyaztv/beyaztv.m3u8"],
-
-["360 TV","📺","Ulusal",
-"https://turkmedya-live.ercdn.net/tv360/tv360.m3u8"],
-
-["TV8.5","⚽","Spor",
-"https://tv8.daioncdn.net/tv8bucuk/tv8bucuk_1080p.m3u8?app=tv8bucuk_web&ce=3"],
-
-["TRT Spor","⚽","Spor",
-"https://tv-trtspor.medya.trt.com.tr/master_720.m3u8"],
-
-["TRT Spor Yıldız","🏅","Spor",
-""],
-
-["TRT Haber","📰","Haber",
-"https://tv-trthaber.medya.trt.com.tr/master.m3u8"],
-
-["Sözcü TV","📰","Haber",
-"https://szctvdvr.blutv.com/blutv_szctv_dvr/live_720p4350000kbps/index.m3u8"],
-
-["Halk TV","📰","Haber",
-"https://halktv-live.daioncdn.net/halktv/halktv_1080p.m3u8"],
-
-["NTV","📰","Haber",
-"https://dogus-live.daioncdn.net/ntv/playlist.m3u8"],
-
-["CNN Türk","📰","Haber",
-""],
-
-["Habertürk","📰","Haber",
-"https://rmtftbjlne.turknet.ercdn.net/bpeytmnqyp/haberturktv/haberturktv_1080p.m3u8"],
-
-["Haber Global","🌍","Haber",
-"https://ensonhaber-live.ercdn.net/haberglobal/haberglobal.m3u8"],
-
-["A Haber","📰","Haber",
-"https://trkvz-live.ercdn.net/ahaberhd/ahaberhd.m3u8"],
-
-["TV100","📰","Haber",
-"https://tv100-live.daioncdn.net/tv100/tv100_1080p.m3u8"],
-
-["TGRT Haber","📰","Haber",
-"https://tgrthaber-live.daioncdn.net/tgrthaber/tgrthaber.m3u8"],
-
-["24 TV","📰","Haber",
-"https://turkmedya-live.ercdn.net/tv24/tv24_720p.m3u8"],
-
-["Ülke TV","📰","Haber",
-"https://livetv.radyotvonline.net/kanal7live/ulketv/playlist.m3u8"],
-
-["TVNET","📰","Haber",
-"https://mn-nl.mncdn.com/tvnet/tvnet/playlist.m3u8"],
-
-["Tele1","📰","Haber",
-"https://tele1-live.ercdn.net/tele1/tele1_1080p.m3u8"],
-
-["Bloomberg HT","💹","Ekonomi",
-"https://ensonhaber-live.ercdn.net/bloomberght/bloomberght.m3u8"],
-
-["A Para","💹","Ekonomi",
-"https://trkvz-live.ercdn.net/aparahd/aparahd.m3u8"],
-
-["CNBC-e","💹","Ekonomi",
-"https://hnpsechtsc.turknet.ercdn.net/xpnvudnlsv/cnbc-e/cnbc-e.m3u8"],
-
-["TRT Belgesel","🌍","Belgesel",
-"https://tv-trtbelgesel.medya.trt.com.tr/master_720.m3u8"],
-
-["TLC","🌍","Belgesel",
-"https://dogus-live.daioncdn.net/tlc/tlc.m3u8"],
-
-["DMAX","🌍","Belgesel",
-"https://dogus-live.daioncdn.net/dmax/dmax.m3u8"],
-
-["TRT Çocuk","🧸","Çocuk",
-"https://tv-trtcocuk.live.trt.com.tr/master.m3u8"],
-
-["TRT Türk","🇹🇷","Ulusal",
-"https://tv-trtturk.medya.trt.com.tr/master_720.m3u8"],
-
-["TRT Avaz","🌍","Ulusal",
-"https://tv-trtavaz.medya.trt.com.tr/master.m3u8"]
-];
-
-const RADIO = [
-["TRT FM","📻"],
-["TRT Radyo 1","🎙️"],
-["PowerTürk","🎵"],
-["Metro FM","🎧"],
-["JoyTürk","🎶"],
-["Kral Pop","🎼"],
-["SlowTürk","💛"],
-["Radyo 7","📻"]
-];
-
-const MENU = [
-["Tüm TV","📺"],
-["Ulusal","🇹🇷"],
-["Haber","📰"],
-["Spor","⚽"],
-["Ekonomi","💹"],
-["Belgesel","🌍"],
-["Çocuk","🧸"],
-["Radyo","📻"],
-["Favoriler","⭐"],
-["YouTube","▶️"]
-];
-
-let page=0;
-let selected=0;
-let focusList=[];
-let activeIndex=0;
-let activeRadio=false;
-let hls=null;
-let lastWheel=0;
-let playbackId=0;
-let favorites=[];
-
-try{
-  favorites=JSON.parse(
-    localStorage.getItem("sehzade_favorites")||"[]"
-  );
-  if(!Array.isArray(favorites))favorites=[];
-}catch(e){favorites=[];}
-
-function status(t){$("status").textContent=t;}
-
-function saveFavorites(){
-  try{
-    localStorage.setItem(
-      "sehzade_favorites",JSON.stringify(favorites)
-    );
-  }catch(e){}
-}
-
-function toggleFavorite(name){
-  if(favorites.includes(name)){
-    favorites=favorites.filter(x=>x!==name);
-  }else{
-    favorites.push(name);
-  }
-  saveFavorites();
-  render();
-}
-
-function items(){
-  if(page===0)return TV;
-  if(page>=1&&page<=6){
-    return TV.filter(x=>x[2]===MENU[page][0]);
-  }
-  if(page===7)return RADIO;
-  if(page===8){
-    return [
-      ...TV.filter(x=>favorites.includes(x[0])),
-      ...RADIO.filter(x=>favorites.includes(x[0]))
-    ];
-  }
-  return [
-    ["YouTube","▶️"],
-    ["Eskişehirspor","⚽"],
-    ["Türkçe Müzik","🎵"],
-    ["Belgesel","🌍"],
-    ["Çocuk Şarkıları","🧸"]
-  ];
-}
-
-function render(){
-  $("nav").replaceChildren();
-
-  MENU.forEach((m,i)=>{
-    const b=document.createElement("button");
-    b.className="menu"+(page===i?" active":"");
-    b.dataset.focus="1";
-    b.innerHTML='<span class="emoji"></span><strong></strong>';
-    b.querySelector(".emoji").textContent=m[1];
-    b.querySelector("strong").textContent=m[0];
-    b.onclick=()=>go(i);
-    $("nav").appendChild(b);
-  });
-
-  $("heading").textContent=
-    MENU[page][1]+" "+MENU[page][0];
-
-  const q=$("search").value.toLocaleLowerCase("tr-TR");
-  $("cards").replaceChildren();
-
-  items().filter(x=>
-    x[0].toLocaleLowerCase("tr-TR").includes(q)
-  ).forEach(item=>{
-    const b=document.createElement("button");
-    b.className="tile";
-    b.dataset.focus="1";
-
-    const icon=document.createElement("span");
-    icon.className="emoji";
-    icon.textContent=item[1];
-
-    const name=document.createElement("strong");
-    name.textContent=item[0];
-
-    b.append(icon,name);
-    b.onclick=()=>openItem(item);
-
-    if(page!==9){
-      const star=document.createElement("span");
-      star.className="star";
-      star.textContent=
-        favorites.includes(item[0])?"★":"☆";
-      star.onclick=e=>{
-        e.stopPropagation();
-        toggleFavorite(item[0]);
-      };
-      b.appendChild(star);
+  // Önce video için gerçek tam ekranı dene
+  try {
+    if (video.requestFullscreen) {
+      const result = video.requestFullscreen();
+      if (result && result.catch) {
+        result.catch(() => {
+          player.classList.add("sehzade-fullscreen");
+        });
+      }
+      return;
     }
 
-    $("cards").appendChild(b);
-  });
-
-  refreshFocus();
-}
-
-function refreshFocus(){
-  focusList=[
-    ...document.querySelectorAll(
-      '#nav [data-focus],#cards [data-focus],footer button'
-    )
-  ];
-  selected=Math.max(
-    0,Math.min(selected,focusList.length-1)
-  );
-  focusList.forEach(x=>x.classList.remove("selected"));
-  if(focusList[selected])
-    focusList[selected].classList.add("selected");
-}
-
-function go(i){
-  page=i;
-  selected=i;
-  $("search").value="";
-  render();
-  status(MENU[i][0]+" açıldı");
-}
-
-function home(){
-  closePlayer();
-  go(0);
-}
-
-function openItem(item){
-  if(page===9){
-    let url="https://m.youtube.com/";
-    if(item[0]!=="YouTube"){
-      url="https://m.youtube.com/results?search_query="+
-        encodeURIComponent(item[0]);
+    if (video.webkitEnterFullscreen) {
+      video.webkitEnterFullscreen();
+      return;
     }
-    window.open(url,"_blank");
-    return;
-  }
+  } catch (e) {}
 
-  const index=TV.findIndex(x=>x[0]===item[0]);
-  if(index>=0){
-    activeRadio=false;
-    activeIndex=index;
-  }else{
-    const ri=RADIO.findIndex(x=>x[0]===item[0]);
-    if(ri<0)return;
-    activeRadio=true;
-    activeIndex=ri;
-  }
-
-  $("player").classList.add("open");
-  loadChannel();
-  $("player").querySelector("button").focus();
+  // Tarayıcı engellerse uygulama içi tam ekran
+  player.classList.add("sehzade-fullscreen");
 }
 
-function destroyStream(){
-  playbackId++;
-  const v=$("video");
-  v.pause();
-  v.onerror=null;
+(function () {
+  const originalOpenItem = window.openItem;
 
-  if(hls){
-    hls.destroy();
-    hls=null;
-  }
+  window.openItem = function (item) {
+    if (!item) return;
 
-  v.removeAttribute("src");
-  v.load();
-}
+    const isTV = typeof TV !== "undefined" &&
+      TV.some(channel => channel[0] === item[0]);
 
-function loadChannel(){
-  destroyStream();
-  const id=playbackId;
+    const isRadio = typeof RADIO !== "undefined" &&
+      RADIO.some(channel => channel[0] === item[0]);
 
-  const item=activeRadio
-    ?RADIO[activeIndex]
-    :TV[activeIndex];
+    if (!isTV && !isRadio) {
+      return originalOpenItem(item);
+    }
 
-  $("playerTitle").textContent=
-    item[1]+" "+item[0];
-
-  if(activeRadio){
-    $("message").textContent=
-      "Bu radyo için ses akışı henüz eklenmedi.";
-    return;
-  }
-
-  const url=item[3];
-
-  if(!url){
-    $("message").textContent=
-      "Bu kanalın doğrudan yayın bağlantısı henüz yok.";
-    return;
-  }
-
-  $("message").textContent=
-    "Canlı yayın bağlanıyor...";
-
-  const v=$("video");
-
-  v.onerror=()=>{
-    if(id===playbackId)
-      $("message").textContent=
-        "Yayın açılamadı. Kaynak erişimi engellenmiş olabilir.";
+    // Kanal seçimi sırasında tam ekranı başlat
+    const result = originalOpenItem(item);
+    sehzadeAutoFullscreen();
+    return result;
   };
 
-  if(url.includes(".m3u8")){
-    if(v.canPlayType("application/vnd.apple.mpegurl")){
-      v.src=url;
-      startVideo(id);
-      return;
+  const originalClosePlayer = window.closePlayer;
+
+  window.closePlayer = function () {
+    const player = document.getElementById("player");
+    if (player) {
+      player.classList.remove("sehzade-fullscreen");
     }
 
-    if(window.Hls&&Hls.isSupported()){
-      hls=new Hls({
-        enableWorker:true,
-        maxBufferLength:20
-      });
-
-      hls.loadSource(url);
-      hls.attachMedia(v);
-
-      hls.on(Hls.Events.MANIFEST_PARSED,()=>{
-        if(id===playbackId)startVideo(id);
-      });
-
-      hls.on(Hls.Events.ERROR,(event,data)=>{
-        if(id!==playbackId)return;
-        if(data.fatal){
-          $("message").textContent=
-            "Yayın hatası: "+data.type+
-            ". Bu bağlantı engellenmiş veya çalışmıyor olabilir.";
-        }
-      });
-      return;
+    if (document.fullscreenElement &&
+        document.exitFullscreen) {
+      document.exitFullscreen().catch(() => {});
     }
 
-    $("message").textContent=
-      "Tarayıcı HLS canlı yayını desteklemiyor.";
-    return;
-  }
-
-  v.src=url;
-  startVideo(id);
-}
-
-function startVideo(id=playbackId){
-  const v=$("video");
-
-  v.play().then(()=>{
-    if(id===playbackId)
-      $("message").textContent="Canlı yayın oynatılıyor.";
-  }).catch(()=>{
-    if(id===playbackId)
-      $("message").textContent=
-        "Yayın başlamadı. Oynat düğmesini deneyin.";
-  });
-}
-
-function changeChannel(direction){
-  const list=activeRadio?RADIO:TV;
-  activeIndex=
-    (activeIndex+direction+list.length)%list.length;
-  loadChannel();
-}
-
-function togglePlayback(){
-  const v=$("video");
-  if(v.paused)startVideo();
-  else v.pause();
-}
-
-function fullScreen(){
-  const v=$("video");
-  if(v.requestFullscreen)
-    v.requestFullscreen().catch(()=>{});
-  else if(v.webkitEnterFullscreen)
-    v.webkitEnterFullscreen();
-}
-
-function favoriteActive(){
-  const item=activeRadio
-    ?RADIO[activeIndex]
-    :TV[activeIndex];
-  toggleFavorite(item[0]);
-}
-
-function closePlayer(){
-  destroyStream();
-  $("player").classList.remove("open");
-}
-
-function move(d){
-  if($("player").classList.contains("open")){
-    const buttons=[...$("player").querySelectorAll("button")];
-    let i=buttons.indexOf(document.activeElement);
-    i=(i+d+buttons.length)%buttons.length;
-    buttons[i].focus();
-    return;
-  }
-
-  refreshFocus();
-  if(!focusList.length)return;
-  selected=(selected+d+focusList.length)%focusList.length;
-  refreshFocus();
-  focusList[selected].scrollIntoView({block:"nearest"});
-}
-
-function command(t){
-  const s=t.toLocaleLowerCase("tr-TR");
-  status("Duyulan: "+t);
-
-  if(s.includes("favori")){go(8);return;}
-  if(s.includes("ana menü")){home();return;}
-
-  const channel=TV.find(x=>
-    s.includes(x[0].toLocaleLowerCase("tr-TR"))
-  );
-
-  if(channel){
-    openItem(channel);
-    return;
-  }
-
-  if(s.includes("haber"))go(2);
-  else if(s.includes("spor"))go(3);
-  else if(s.includes("radyo"))go(7);
-  else if(s.includes("youtube"))go(9);
-  else if(s.includes("çocuk"))go(6);
-  else if(s.includes("televizyon"))go(0);
-}
-
-function listen(){
-  const Speech=
-    window.SpeechRecognition||
-    window.webkitSpeechRecognition;
-
-  if(!Speech){
-    alert("Tarayıcı sesli komutu desteklemiyor.");
-    return;
-  }
-
-  try{
-    const r=new Speech();
-    r.lang="tr-TR";
-    r.onstart=()=>status("Dinliyorum...");
-    r.onresult=e=>command(e.results[0][0].transcript);
-    r.onerror=e=>status("Mikrofon hatası: "+e.error);
-    r.start();
-  }catch(e){
-    status("Mikrofon başlatılamadı.");
-  }
-}
-
-document.addEventListener("keydown",e=>{
-  if(document.activeElement===$("search"))return;
-
-  if(["ArrowDown","ArrowRight","ArrowUp","ArrowLeft"]
-    .includes(e.key)){
-    e.preventDefault();
-    move(["ArrowDown","ArrowRight"].includes(e.key)?1:-1);
-  }else if(e.key==="Enter"){
-    e.preventDefault();
-
-    if($("player").classList.contains("open")){
-      if(
-        $("player").contains(document.activeElement)&&
-        document.activeElement.tagName==="BUTTON"
-      )document.activeElement.click();
-      else togglePlayback();
-    }else{
-      refreshFocus();
-      if(focusList[selected])focusList[selected].click();
-    }
-  }else if(e.key==="Escape"||e.key==="Backspace"){
-    e.preventDefault();
-    if($("player").classList.contains("open"))closePlayer();
-    else home();
-  }
-});
-
-document.addEventListener("wheel",e=>{
-  if(Date.now()-lastWheel<180)return;
-  lastWheel=Date.now();
-  move(e.deltaY>0?1:-1);
-},{passive:true});
-
-$("search").oninput=render;
-
-function clock(){
-  $("clock").textContent=
-    new Intl.DateTimeFormat("tr-TR",{
-      timeZone:"Europe/Istanbul",
-      day:"numeric",
-      month:"long",
-      hour:"2-digit",
-      minute:"2-digit"
-    }).format(new Date());
-}
-
-clock();
-setInterval(clock,60000);
-render();
+    return originalClosePlayer();
+  };
+})();
 </script>
-</body>
-</html>
+
+<style>
+#player.sehzade-fullscreen {
+  display:block!important;
+  position:fixed!important;
+  inset:0!important;
+  width:100vw!important;
+  height:100dvh!important;
+  z-index:99999!important;
+  background:#000!important;
+}
+
+#player.sehzade-fullscreen #video {
+  width:100%!important;
+  height:calc(100dvh - 125px)!important;
+  max-height:none!important;
+  object-fit:contain;
+}
+</style>
