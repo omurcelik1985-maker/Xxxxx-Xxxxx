@@ -2139,7 +2139,27 @@ function voiceState(message){
 }
 
 /* DUYULAN KONUSMAYI GOSTER */
-function heard(message){
+
+function voiceState(message){
+  const state = document.getElementById("voiceState");
+  const home = document.getElementById("homeHeard");
+  const dot = document.getElementById("voiceDot");
+  const homeDot = document.getElementById("homeVoiceDot");
+
+  if(state) state.textContent = message;
+  if(home) home.textContent = message;
+
+  if(dot) dot.classList.toggle("on", voiceEnabled);
+  if(homeDot) homeDot.classList.toggle("on", voiceEnabled);
+
+  console.log("Mercedes Voice:", message);
+}
+
+/* DUYULAN KONUSMAYI GOSTER */
+ $("heardText").textContent=message;
+  $("homeHeard").textContent=message;
+}
+
 
 /* DUYULAN KONUSMAYI GOSTER */
 function heard(message){
