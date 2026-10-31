@@ -2114,7 +2114,27 @@ let voiceLastCommandTime=0;
 const VOICE_MAX_FAILURES=5;
 
 /* SES DURUMUNU GUNCELLE */
+
 function voiceState(message){
+  const state = document.getElementById("voiceState");
+  const home = document.getElementById("homeHeard");
+  const dot = document.getElementById("voiceDot");
+  const homeDot = document.getElementById("homeVoiceDot");
+
+  if(state) state.textContent = message;
+  if(home) home.textContent = message;
+
+  if(dot) {
+    dot.classList.toggle("on", voiceEnabled);
+  }
+
+  if(homeDot) {
+    homeDot.classList.toggle("on", voiceEnabled);
+  }
+
+  console.log("Mercedes Voice:", message);
+}
+
   $("voiceState").textContent=message;
 
   $("voiceDot").classList.toggle(
