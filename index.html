@@ -4,678 +4,940 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#050c18">
-<title>ŞEHZADE MEDIA V13 ULTIMATE</title>
+<meta name="theme-color" content="#060c16">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<title>MERCEDES MEDIA V14 SIGNATURE</title>
 
 <script src="https://cdn.jsdelivr.net/npm/hls.js@1/dist/hls.min.js"></script>
 
 <style>
 :root{
-  --accent:#168cff;
-  --bg:#050c18;
-  --panel:#101f34;
-  --panel2:#152b46;
-  --line:#304d6a;
-  --text:#f4f8ff;
-  --muted:#a8bed4;
-  --gold:#e9b96e;
+ --accent:#29a5ff;
+ --gold:#eac18a;
+ --bg:#050a12;
+ --surface:#0d1827;
+ --surface2:#12243a;
+ --border:#263e56;
+ --text:#f5f8ff;
+ --muted:#8fa9c2;
+ --green:#48d8a1;
+ --sidebar:102px;
+ --bottom:78px;
 }
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 html,body{
-  margin:0;min-height:100%;background:var(--bg);
-  color:var(--text);font:15px Arial,sans-serif;
+ margin:0;width:100%;min-height:100%;
+ background:var(--bg);color:var(--text);
+ font-family:Arial,Helvetica,sans-serif;
+ -webkit-tap-highlight-color:transparent;
 }
-button,input,select{font:inherit}
+button,input{font:inherit}
 button{
-  color:var(--text);background:var(--panel2);
-  border:1px solid var(--line);border-radius:12px;
-  padding:12px;cursor:pointer;min-height:44px;
+ border:1px solid var(--border);
+ color:var(--text);background:var(--surface2);
+ border-radius:12px;cursor:pointer;
+ min-height:44px;transition:background .15s,border-color .15s;
 }
-button:focus-visible,a:focus-visible,input:focus-visible{
-  outline:3px solid var(--gold);outline-offset:2px;
-}
+button:hover{border-color:var(--accent)}
 button:active{transform:scale(.98)}
+button:focus-visible,input:focus-visible{
+ outline:3px solid var(--gold);outline-offset:2px;
+}
 button.active{
-  border-color:var(--accent);
-  background:color-mix(in srgb,var(--accent) 24%,var(--panel));
+ border-color:var(--accent);
+ background:linear-gradient(135deg,#184c79,#10283f);
+ box-shadow:inset 3px 0 var(--accent);
 }
-button:disabled{opacity:.45;cursor:not-allowed}
 input{
-  background:#0c1d31;color:white;border:1px solid var(--line);
-  border-radius:10px;padding:13px;min-width:0;
+ background:#0a1727;color:white;
+ border:1px solid var(--border);
+ border-radius:12px;padding:13px;
+ min-width:0;
 }
-a{color:#86c9ff}
-header{
-  display:flex;justify-content:space-between;align-items:center;
-  gap:12px;padding:14px 4%;
-  background:linear-gradient(#0c1728,#050c18);
-  border-bottom:1px solid #80623b;
+a{color:#8bd3ff}
+.app{
+ display:grid;
+ grid-template-columns:var(--sidebar) minmax(0,1fr);
+ grid-template-rows:72px minmax(0,1fr) var(--bottom);
+ min-height:100dvh;
+}
+.topbar{
+ grid-column:1/-1;
+ display:flex;justify-content:space-between;
+ align-items:center;gap:12px;
+ padding:10px 22px;
+ background:linear-gradient(90deg,#0a1422,#07111e);
+ border-bottom:1px solid #655035;
 }
 .brand{
-  font:bold clamp(20px,3vw,30px) Georgia,serif;
-  color:#f3cd8b;letter-spacing:1px;
+ font-family:Georgia,serif;
+ color:var(--gold);font-size:25px;
+ font-weight:bold;letter-spacing:1.5px;
 }
-.subtitle{
-  color:var(--muted);font-size:10px;
-  letter-spacing:2px;margin-top:5px;
+.brand small{
+ display:block;color:#8fa7bc;
+ font:9px Arial,sans-serif;
+ letter-spacing:3px;margin-top:5px;
 }
-.clock{text-align:right;font-size:21px}
-.date{font-size:11px;color:var(--muted)}
-main{max-width:1300px;margin:auto;padding:16px}
-.panel{
-  border:1px solid var(--line);border-radius:18px;
-  background:linear-gradient(135deg,#10243c,#081423);
-  padding:16px;margin-bottom:15px;
+.topright{
+ display:flex;align-items:center;gap:20px;
 }
-h1,h2,h3{margin:0 0 12px}
-h2{font-size:21px}
+.signal{font-size:11px;color:var(--green)}
+.clock{text-align:right;font-size:21px;font-weight:bold}
+.clock small{
+ display:block;font-size:10px;
+ font-weight:normal;color:var(--muted);
+}
+.sidebar{
+ grid-row:2;grid-column:1;
+ display:flex;flex-direction:column;gap:8px;
+ background:#081321;
+ border-right:1px solid var(--border);
+ padding:12px 8px;
+}
+.nav{
+ display:flex;flex-direction:column;
+ align-items:center;justify-content:center;
+ gap:7px;padding:9px 3px;
+ min-height:68px;
+ background:transparent;border-color:transparent;
+ font-size:11px;color:var(--muted);
+}
+.nav .ico{font-size:23px}
+.nav.active{color:white}
+.content{
+ grid-row:2;grid-column:2;
+ min-width:0;overflow:auto;
+ padding:22px;
+ padding-bottom:26px;
+ background:
+ radial-gradient(ellipse at 80% 0%,#10294355,transparent 45%),
+ linear-gradient(135deg,#07111d,#050a12);
+}
+.view{max-width:1500px;margin:auto}
+.eyebrow{
+ font-size:10px;letter-spacing:3px;
+ color:var(--gold);margin-bottom:9px;
+}
+h1{
+ font-size:clamp(24px,3vw,38px);
+ font-weight:500;letter-spacing:.3px;
+ margin:0 0 8px;
+}
+h2{font-size:20px;margin:0 0 14px}
+h3{font-size:15px;margin:0 0 10px}
 .muted{color:var(--muted)}
 .small{font-size:12px}
 .hero{
-  background:linear-gradient(120deg,#123252,#0b1728);
-  border-color:#886d49;
+ display:grid;grid-template-columns:1.3fr 1fr;
+ gap:15px;margin:20px 0;
 }
-.status-line{
-  display:flex;align-items:center;gap:8px;
-  color:#b9d1e7;font-size:12px;margin-top:10px;
+.card{
+ border:1px solid var(--border);
+ border-radius:18px;
+ background:linear-gradient(145deg,#11253c,#0a1728);
+ padding:20px;
 }
-.dot{
-  display:inline-block;width:9px;height:9px;
-  border-radius:50%;background:#8292a5;
+.feature{
+ position:relative;overflow:hidden;
+ min-height:265px;
+ background:
+ radial-gradient(circle at 75% 45%,#174b7d88,transparent 42%),
+ linear-gradient(125deg,#102c4a,#081321);
+ border-color:#6e583b;
 }
-.dot.live{background:#43d99b;box-shadow:0 0 9px #43d99b}
+.feature:after{
+ content:"";position:absolute;
+ width:240px;height:240px;border-radius:50%;
+ border:2px solid #2c9dff22;
+ box-shadow:0 0 0 28px #168cff0b,
+            0 0 0 58px #168cff08;
+ right:-30px;top:5px;pointer-events:none;
+}
+.feature-content{position:relative;z-index:2}
+.feature-title{
+ font-size:clamp(25px,3vw,40px);
+ margin:20px 0 10px;font-weight:bold;
+}
+.feature-actions{
+ display:flex;flex-wrap:wrap;gap:9px;
+ margin-top:22px;
+}
+.primary{
+ background:linear-gradient(135deg,#1c83d3,#11528c);
+ border-color:#349ae7;
+ padding:12px 22px;font-weight:bold;
+}
+.secondary{padding:12px 17px}
+.stat-grid{
+ display:grid;grid-template-columns:1fr 1fr;
+ gap:12px;
+}
+.stat{
+ display:flex;flex-direction:column;
+ justify-content:center;
+ align-items:flex-start;
+ min-height:125px;
+}
+.stat .symbol{font-size:25px;margin-bottom:10px}
+.stat strong{font-size:22px;color:white}
+.stat small{
+ font-size:11px;color:var(--muted);
+ margin-top:6px;
+}
+.section-head{
+ display:flex;justify-content:space-between;
+ align-items:center;gap:10px;
+ flex-wrap:wrap;margin:25px 0 13px;
+}
+.section-head h2{margin:0}
 .tiles{
-  display:grid;grid-template-columns:repeat(4,1fr);
-  gap:10px;margin-top:15px;
+ display:grid;
+ grid-template-columns:repeat(4,minmax(0,1fr));
+ gap:12px;
 }
 .tile{
-  min-height:104px;font-weight:bold;font-size:17px;
-  background:linear-gradient(135deg,#163e63,#0b1b30);
+ text-align:left;min-height:135px;
+ padding:18px;
+ background:linear-gradient(145deg,#142e49,#0b1b2d);
 }
-.tile .emoji{display:block;font-size:26px;margin-bottom:8px}
+.tile .symbol{
+ font-size:27px;display:block;margin-bottom:20px;
+}
+.tile strong{display:block;font-size:15px}
 .tile small{
-  display:block;font-size:11px;font-weight:normal;
-  color:var(--muted);margin-top:6px;
+ display:block;color:var(--muted);
+ font-size:11px;margin-top:8px;
 }
-.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
-.toolbar button{flex:0 0 auto}
-.now{
-  display:flex;align-items:center;justify-content:space-between;
-  gap:12px;flex-wrap:wrap;margin-top:15px;
-  padding:12px;border:1px solid var(--line);
-  border-radius:12px;background:#071525;
+.toolbar{
+ display:flex;gap:8px;flex-wrap:wrap;
+ margin:16px 0;
 }
-.now strong{display:block;font-size:19px;margin-top:4px}
-.now small{color:var(--muted)}
-.searchbar{
-  display:flex;gap:8px;align-items:center;
-  justify-content:space-between;flex-wrap:wrap;
+.toolbar button{padding:10px 15px}
+.searchrow{
+ display:flex;justify-content:space-between;
+ align-items:center;gap:12px;flex-wrap:wrap;
 }
-.searchbar input{flex:1;min-width:180px;max-width:400px}
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(155px,1fr));
-  gap:10px;
+.searchrow input{
+ flex:1;max-width:400px;min-width:180px;
+}
+.channels{
+ display:grid;
+ grid-template-columns:repeat(auto-fill,minmax(170px,1fr));
+ gap:12px;margin-top:16px;
 }
 .channel{
-  position:relative;min-height:125px;
-  border:1px solid var(--line);border-radius:13px;
-  background:linear-gradient(135deg,#173858,#0a192a);
-  padding:8px;
+ position:relative;
+ min-height:142px;
+ background:linear-gradient(145deg,#142f4d,#0a192a);
+ border:1px solid var(--border);
+ border-radius:15px;overflow:hidden;
 }
-.channel .open{
-  width:100%;height:100%;min-height:106px;
-  border:0;background:none;padding:8px 25px 8px 8px;
+.channel button.open{
+ width:100%;min-height:142px;
+ background:none;border:0;
+ display:flex;flex-direction:column;
+ align-items:flex-start;justify-content:center;
+ padding:18px 38px 18px 16px;
+ text-align:left;
 }
-.channel .symbol{display:block;font-size:29px;margin-bottom:8px}
-.channel .name{display:block;font-weight:bold}
+.channel .symbol{font-size:30px;margin-bottom:12px}
+.channel .name{font-weight:bold;font-size:15px}
 .channel .category{
-  display:block;font-size:11px;color:var(--muted);
-  margin-top:6px;
+ color:var(--muted);font-size:11px;margin-top:7px;
 }
-.channel .star{
-  position:absolute;right:4px;top:4px;
-  background:none;border:0;font-size:23px;
-  color:#ffd084;min-width:40px;
+.channel .fav{
+ position:absolute;right:7px;top:7px;
+ background:#08162699;border:0;
+ font-size:23px;color:var(--gold);
+ width:40px;height:40px;
 }
-.notice{
-  border:1px solid #5d6f80;border-radius:12px;
-  padding:12px;background:#102033;color:#c4d6e8;
-  font-size:13px;line-height:1.6;
+.channel.playing{
+ border-color:var(--accent);
+ box-shadow:0 0 20px #168cff22;
 }
-footer{
-  padding:20px;text-align:center;
-  color:#8faac3;font-size:11px;
+.bottombar{
+ grid-column:1/-1;grid-row:3;
+ display:flex;align-items:center;
+ gap:18px;padding:10px 22px;
+ background:#0b192a;
+ border-top:1px solid #4e463c;
+ min-width:0;
+}
+.bottom-now{
+ min-width:0;flex:1;
+ display:flex;align-items:center;gap:12px;
+}
+.bottom-art{
+ width:49px;height:49px;flex:none;
+ border-radius:12px;
+ display:grid;place-items:center;
+ background:linear-gradient(135deg,#1a4c79,#0d223b);
+ border:1px solid #315f89;font-size:24px;
+}
+.bottom-info{min-width:0}
+.bottom-info strong{
+ display:block;overflow:hidden;
+ text-overflow:ellipsis;white-space:nowrap;
+}
+.bottom-info small{
+ color:var(--muted);font-size:10px;
+ display:block;margin-top:5px;
+}
+.bottom-controls{
+ display:flex;align-items:center;gap:7px;
+}
+.bottom-controls button{
+ min-width:46px;min-height:46px;
+ padding:8px;font-size:17px;
+}
+.bottom-controls .play{
+ background:var(--accent);
+ color:#001425;border-color:var(--accent);
+ font-size:23px;font-weight:bold;
+}
+.bottom-extra{
+ display:flex;align-items:center;gap:8px;
+}
+.bottom-extra button{padding:9px 12px}
+.status-pill{
+ font-size:11px;color:var(--green);
+ border:1px solid #265b51;
+ border-radius:30px;padding:8px 11px;
+ white-space:nowrap;
 }
 #player{
-  position:fixed;inset:0;z-index:100;
-  display:none;flex-direction:column;
-  background:#020713;
+ position:fixed;inset:0;z-index:100;
+ display:none;flex-direction:column;
+ background:#02060d;
 }
 #player.open{display:flex}
-.player-head,.player-foot{
-  padding:9px;background:#071323;
-  border-color:var(--line);
-}
 .player-head{
-  display:flex;justify-content:space-between;
-  align-items:center;gap:10px;
-  border-bottom:1px solid var(--line);
+ display:flex;align-items:center;
+ justify-content:space-between;
+ gap:12px;padding:10px 16px;
+ background:#071321;
+ border-bottom:1px solid var(--border);
 }
 .player-head strong{font-size:16px}
-.player-foot{
-  border-top:1px solid var(--line);
-  text-align:center;
-}
+.player-head button{padding:9px 13px}
 .stage{
-  position:relative;flex:1;min-height:0;
-  background:#000;overflow:hidden;
+ position:relative;flex:1;
+ min-height:0;overflow:hidden;
+ background:#000;
 }
-#media{
-  width:100%;height:100%;
-  object-fit:contain;background:black;
+#video{
+ width:100%;height:100%;
+ object-fit:contain;background:black;
 }
-.radio-mode #media{
-  position:absolute;width:1px;height:1px;
-  opacity:0;pointer-events:none;
+.radio-mode #video{
+ position:absolute;width:1px;height:1px;
+ opacity:0;pointer-events:none;
 }
 .radio-scene{
-  position:absolute;inset:0;display:none;
-  overflow:hidden;isolation:isolate;
-  background:radial-gradient(ellipse at center,
-    #11396b 0%,#071b35 48%,#01050e 95%);
+ display:none;position:absolute;inset:0;
+ overflow:hidden;
+ background:
+ radial-gradient(ellipse at 50% 50%,#153b70 0%,
+ #071c36 43%,#01050d 95%);
 }
 .radio-mode .radio-scene{display:block}
 .radio-scene:before{
-  content:"";position:absolute;inset:-25%;
-  background:repeating-conic-gradient(
-    transparent 0deg,#1384ff18 10deg,
-    transparent 18deg,#f1b45613 25deg,
-    transparent 34deg);
-  animation:spin 70s linear infinite;
+ content:"";position:absolute;inset:-25%;
+ background:repeating-conic-gradient(
+ transparent 0deg,#118bff13 8deg,
+ transparent 15deg,#e8ac4712 20deg,
+ transparent 27deg);
+ animation:spin 70s linear infinite;
 }
 .radio-scene:after{
-  content:"";position:absolute;
-  left:-10%;right:-10%;bottom:-27%;height:50%;
-  border-radius:50%;
-  background:repeating-radial-gradient(
-    ellipse at center,transparent 0 20px,
-    #168cff44 22px 24px,
-    transparent 26px 43px,
-    #ffb64c33 45px 47px,
-    transparent 49px 65px);
-  transform:perspective(450px) rotateX(65deg);
+ content:"";position:absolute;
+ bottom:-35%;left:-15%;width:130%;height:65%;
+ border-radius:50%;
+ background:repeating-radial-gradient(
+ ellipse at center,
+ transparent 0 20px,#168cff44 22px 24px,
+ transparent 26px 45px,#e8ac4733 47px 49px,
+ transparent 51px 70px);
+ transform:perspective(450px) rotateX(65deg);
 }
 .turbine-wrap{
-  position:absolute;inset:0;display:grid;
-  place-items:center;
+ position:absolute;inset:0;
+ display:grid;place-items:center;
 }
 .turbine{
-  position:relative;width:min(70vh,50vw,500px);
-  aspect-ratio:1;
-  filter:drop-shadow(0 0 20px #087aff77);
+ position:relative;
+ width:min(73vh,52vw,560px);
+ aspect-ratio:1;
+ filter:drop-shadow(0 0 24px #087aff66);
 }
 .ring{
-  position:absolute;border-radius:50%;
-  pointer-events:none;
+ position:absolute;border-radius:50%;
+ pointer-events:none;
 }
-.ring.one{
-  inset:2%;border:7px solid transparent;
-  border-top-color:var(--gold);
-  border-right-color:var(--accent);
-  border-bottom-color:#1557e9;
-  border-left-color:#ffab32;
-  box-shadow:0 0 22px #168cff66;
-  animation:spin 13s linear infinite;
+.ring.r1{
+ inset:2%;border:8px solid transparent;
+ border-top-color:var(--gold);
+ border-right-color:var(--accent);
+ border-bottom-color:#1759eb;
+ border-left-color:#d79a4b;
+ box-shadow:0 0 22px #168cff77;
+ animation:spin 13s linear infinite;
 }
-.ring.two{
-  inset:10%;border:4px dashed #d8eaff99;
-  animation:spin 24s linear infinite reverse;
+.ring.r2{
+ inset:10%;border:4px dashed #d7edff99;
+ animation:spin 25s linear infinite reverse;
 }
-.ring.three{
-  inset:17%;border:7px solid transparent;
-  border-top-color:#c5edff;
-  border-right-color:var(--accent);
-  border-bottom-color:#ffb54c;
-  animation:spin 18s linear infinite;
+.ring.r3{
+ inset:17%;border:8px solid transparent;
+ border-top-color:#c6ecff;
+ border-bottom-color:var(--gold);
+ border-right-color:var(--accent);
+ animation:spin 18s linear infinite;
 }
 .blades{
-  position:absolute;inset:20%;
-  border-radius:50%;
-  background:repeating-conic-gradient(
-    #041e50 0deg,var(--accent) 6deg,
-    #70ddff 9deg,#07152e 15deg);
-  box-shadow:inset 0 0 35px #000,0 0 20px var(--accent);
-  animation:spin 22s linear infinite;
+ position:absolute;inset:20%;
+ border-radius:50%;
+ background:repeating-conic-gradient(
+ #051a43 0deg,var(--accent) 5deg,
+ #70dbff 8deg,#05172e 14deg);
+ box-shadow:inset 0 0 35px #000,
+ 0 0 28px var(--accent);
+ animation:spin 20s linear infinite;
 }
-.star-center{
-  position:absolute;inset:33%;display:grid;
-  place-items:center;border-radius:50%;
-  background:radial-gradient(#0d3675,#020a18);
-  border:3px solid #a8c7e6;z-index:4;
-  box-shadow:0 0 28px var(--accent);
+.core{
+ position:absolute;inset:34%;
+ border-radius:50%;
+ background:radial-gradient(#144a91,#020a19);
+ border:3px solid #b1cee8;
+ display:grid;place-items:center;
+ box-shadow:0 0 30px var(--accent);
+ z-index:4;
 }
-.star-center svg{
-  width:90%;height:90%;
-  filter:drop-shadow(0 0 7px #d2edff);
-}
-.radio-label{
-  position:absolute;bottom:4%;left:0;right:0;
-  text-align:center;font-size:clamp(17px,3vw,26px);
-  font-weight:bold;letter-spacing:2px;
-  text-shadow:0 0 15px var(--accent);
+.core svg{
+ width:90%;height:90%;
+ filter:drop-shadow(0 0 8px #d2efff);
 }
 .equalizer{
-  position:absolute;inset:10% 4%;
-  display:flex;justify-content:space-between;
-  align-items:center;gap:3px;
+ position:absolute;inset:9% 3%;
+ display:flex;align-items:center;
+ justify-content:space-between;gap:3px;
 }
-.bar{
-  flex:1;max-width:12px;
-  height:12%;border-radius:5px;
-  background:linear-gradient(to top,#0954aa,
-    var(--accent),#fff1c2,#ffac38);
-  opacity:.6;
-  animation:eq var(--speed,1s) ease-in-out
-    infinite alternate;
-  animation-delay:var(--delay,0s);
+.eqbar{
+ flex:1;max-width:12px;
+ height:8%;border-radius:5px;
+ background:linear-gradient(to top,
+ #0756a8,var(--accent),#fff0c2,#f4aa42);
+ opacity:.65;
+ animation:eq var(--speed,1s) ease-in-out
+ infinite alternate;
+ animation-delay:var(--delay,0s);
+}
+.radio-title{
+ position:absolute;bottom:5%;
+ left:0;right:0;text-align:center;
+ font-size:clamp(18px,3vw,28px);
+ font-weight:bold;letter-spacing:3px;
+ text-shadow:0 0 15px var(--accent);
 }
 .radio-scene.paused .ring,
 .radio-scene.paused .blades,
-.radio-scene.paused .bar,
+.radio-scene.paused .eqbar,
 .radio-scene.paused:before{
-  animation-play-state:paused;
+ animation-play-state:paused;
 }
 @keyframes spin{to{transform:rotate(360deg)}}
-@keyframes eq{from{height:5%}to{height:var(--peak,70%)}}
-.controls{
-  display:flex;gap:6px;flex-wrap:wrap;
-  justify-content:center;
+@keyframes eq{
+ from{height:5%}
+ to{height:var(--peak,70%)}
 }
-.controls button{font-size:12px;padding:9px}
-#playStatus{font-size:12px;color:#b7d6ed;margin-bottom:8px}
-#voiceStatus{font-size:12px;color:#a9ddc4}
-#palette{
-  display:grid;grid-template-columns:repeat(8,1fr);
-  gap:7px;max-width:360px;margin:12px auto;
+.player-foot{
+ padding:9px 14px;
+ background:#081525;
+ border-top:1px solid var(--border);
+ text-align:center;
 }
-.swatch{aspect-ratio:1;min-height:35px}
+#playStatus{
+ font-size:12px;color:#c0d8ec;
+ margin-bottom:8px;
+}
+.player-controls{
+ display:flex;justify-content:center;
+ gap:7px;flex-wrap:wrap;
+}
+.player-controls button{
+ padding:9px 12px;font-size:12px;
+}
+#exitTheater{
+ display:none;position:absolute;
+ right:12px;top:12px;z-index:30;
+ background:#06192dcc;
+}
 .theater .player-head,
 .theater .player-foot{display:none}
-#exitTheater{
-  display:none;position:absolute;right:12px;top:12px;
-  z-index:30;background:#06172bdd;
-}
 .theater #exitTheater{display:block}
+.setting-row{
+ display:flex;justify-content:space-between;
+ align-items:center;gap:12px;
+ padding:15px 0;border-bottom:1px solid var(--border);
+ flex-wrap:wrap;
+}
+.palette{
+ display:grid;grid-template-columns:repeat(8,1fr);
+ gap:9px;margin-top:12px;max-width:420px;
+}
+.swatch{aspect-ratio:1;min-height:36px}
+.notice{
+ padding:16px;border:1px solid #49627c;
+ background:#102238;border-radius:13px;
+ color:#c0d4e8;line-height:1.65;font-size:13px;
+}
+.youtube-form{
+ display:flex;gap:9px;flex-wrap:wrap;
+ margin:16px 0;
+}
+.youtube-form input{flex:1;min-width:180px}
+.youtube-frame{
+ width:100%;aspect-ratio:16/9;
+ border:0;border-radius:14px;
+ background:black;
+}
 #toast{
-  position:fixed;bottom:15px;left:50%;
-  transform:translateX(-50%);
-  z-index:300;max-width:90%;
-  background:#173454;border:1px solid #7296ba;
-  padding:12px 18px;border-radius:12px;
-  display:none;text-align:center;
+ position:fixed;bottom:95px;left:50%;
+ transform:translateX(-50%);
+ z-index:300;display:none;
+ background:#173653;border:1px solid #668db3;
+ border-radius:12px;padding:12px 20px;
+ max-width:90%;text-align:center;
 }
 #toast.show{display:block}
-.youtube-form{display:flex;gap:8px;flex-wrap:wrap}
-.youtube-form input{flex:1;min-width:180px}
-.yt-frame{
-  width:100%;aspect-ratio:16/9;
-  border:0;border-radius:12px;background:#000;
+@media(max-width:900px){
+ :root{--sidebar:78px}
+ .content{padding:14px}
+ .hero{grid-template-columns:1fr}
+ .tiles{grid-template-columns:repeat(2,1fr)}
+ .bottom-extra{display:none}
+ .nav{font-size:10px}
 }
-@media(max-width:700px){
-  .tiles{grid-template-columns:repeat(2,1fr)}
-  .tile{min-height:90px;font-size:14px}
-  .grid{grid-template-columns:repeat(2,1fr)}
-  .turbine{width:72vw}
-  header{padding:12px}
-  .clock{font-size:17px}
+@media(max-width:600px){
+ :root{--sidebar:60px;--bottom:74px}
+ .brand{font-size:17px}
+ .brand small{font-size:7px;letter-spacing:1px}
+ .topbar{padding:8px 10px}
+ .signal{display:none}
+ .clock{font-size:16px}
+ .sidebar{padding:8px 3px}
+ .nav{min-height:57px;font-size:9px}
+ .nav .ico{font-size:19px}
+ .content{padding:10px}
+ .card{padding:15px}
+ .feature{min-height:225px}
+ .tiles{gap:8px}
+ .tile{min-height:112px;padding:12px}
+ .tile .symbol{margin-bottom:12px}
+ .channels{grid-template-columns:repeat(2,1fr);gap:8px}
+ .bottom-controls button{min-width:37px;padding:6px}
+ .bottom-art{width:40px;height:40px}
+ .bottombar{padding:8px;gap:7px}
+ .bottom-info strong{font-size:12px}
+ .bottom-info small{font-size:9px}
+ .turbine{width:75vw}
 }
 @media(max-height:450px){
-  .turbine{width:min(72vh,45vw)}
-  .player-head,.player-foot{padding:5px}
-  .controls button{padding:6px;min-height:34px}
+ .turbine{width:min(72vh,45vw)}
+ .player-foot{padding:5px}
+ .player-controls button{min-height:34px;padding:5px}
 }
 @media(prefers-reduced-motion:reduce){
-  .ring,.blades,.bar,.radio-scene:before{
-    animation:none!important;
-  }
+ .ring,.blades,.eqbar,.radio-scene:before{
+  animation:none!important;
+ }
 }
 </style>
 </head>
 
 <body>
 
-<header>
-  <div>
-    <div class="brand">♛ ŞEHZADE MEDIA</div>
-    <div class="subtitle">
-      ULTIMATE V13 · MERCEDES DIGITAL COCKPIT
-    </div>
+<div class="app">
+
+<header class="topbar">
+ <div class="brand">
+  ♛ ŞEHZADE MEDIA
+  <small>SIGNATURE · DIGITAL COCKPIT V14</small>
+ </div>
+ <div class="topright">
+  <div class="signal" id="netStatus">● SİSTEM HAZIR</div>
+  <div class="clock">
+   <span id="clock">--:--</span>
+   <small id="date"></small>
   </div>
-  <div>
-    <div class="clock" id="clock">--:--</div>
-    <div class="date" id="date"></div>
-  </div>
+ </div>
 </header>
 
-<main>
+<nav class="sidebar" aria-label="Ana menü">
+ <button class="nav active" data-page="home" onclick="showPage('home')">
+  <span class="ico">⌂</span>ANA SAYFA
+ </button>
+ <button class="nav" data-page="tv" onclick="showPage('tv')">
+  <span class="ico">▣</span>TV
+ </button>
+ <button class="nav" data-page="radio" onclick="showPage('radio')">
+  <span class="ico">◉</span>RADYO
+ </button>
+ <button class="nav" data-page="favorites" onclick="showPage('favorites')">
+  <span class="ico">★</span>FAVORİ
+ </button>
+ <button class="nav" data-page="children" onclick="showPage('children')">
+  <span class="ico">♧</span>ÇOCUK
+ </button>
+ <button class="nav" data-page="youtube" onclick="showPage('youtube')">
+  <span class="ico">▶</span>YOUTUBE
+ </button>
+ <button class="nav" data-page="settings" onclick="showPage('settings')">
+  <span class="ico">⚙</span>AYARLAR
+ </button>
+</nav>
 
-<section id="home" class="panel hero">
-  <h2>Hoş Geldiniz</h2>
-  <div class="muted small">
-    Televizyon, radyo ve akıllı medya merkezi
-  </div>
+<main class="content">
 
-  <div class="tiles">
-    <button class="tile" onclick="showPage('tv')">
-      <span class="emoji">📺</span>
-      TELEVİZYON
-      <small id="tvCount">33 kanal</small>
-    </button>
-    <button class="tile" onclick="showPage('radio')">
-      <span class="emoji">📻</span>
-      RADYO
-      <small id="radioCount">25 istasyon</small>
-    </button>
-    <button class="tile" onclick="showPage('favorites')">
-      <span class="emoji">⭐</span>
-      FAVORİLER
-      <small>Kaydedilen kanallar</small>
-    </button>
-    <button class="tile" onclick="showPage('children')">
-      <span class="emoji">🧸</span>
-      ÇOCUK
-      <small>Çocuk kanalları</small>
-    </button>
-    <button class="tile" onclick="showPage('youtube')">
-      <span class="emoji">▶️</span>
-      YOUTUBE
-      <small>Ara veya bağlantı aç</small>
-    </button>
-    <button class="tile" onclick="showPage('mirror')">
-      <span class="emoji">🖥️</span>
-      EKRAN AKTARIMI
-      <small>Tarayıcı desteğine bağlı</small>
-    </button>
-    <button class="tile" onclick="showPage('settings')">
-      <span class="emoji">⚙️</span>
-      AYARLAR
-      <small>Görünüm ve bağlantı</small>
-    </button>
-    <button class="tile" onclick="showPage('all')">
-      <span class="emoji">🔎</span>
-      TÜM KANALLAR
-      <small>TV ve radyo arama</small>
-    </button>
-  </div>
+<section id="homeView" class="view">
+ <div class="eyebrow">PREMIUM MEDIA EXPERIENCE</div>
+ <h1>Dijital Medya Merkezi</h1>
+ <div class="muted">
+  Televizyon, radyo ve akıllı medya kontrolü.
+ </div>
 
-  <div class="now">
-    <div>
-      <small>ŞİMDİ OYNATILIYOR</small>
-      <strong id="nowName">Yayın seçilmedi</strong>
+ <div class="hero">
+  <div class="card feature">
+   <div class="feature-content">
+    <div class="eyebrow">ŞİMDİ OYNATILIYOR</div>
+    <div class="feature-title" id="heroName">
+     ŞEHZADE MEDIA
     </div>
-    <div class="toolbar">
-      <button onclick="step(-1)">◀</button>
-      <button onclick="resumeLast()">▶ Aç</button>
-      <button onclick="step(1)">▶▶</button>
+    <div class="muted" id="heroSubtitle">
+     Bir kanal seçerek başlayın.
     </div>
+    <div class="feature-actions">
+     <button class="primary" onclick="resumeLast()">
+      ▶ YAYINI AÇ
+     </button>
+     <button class="secondary" onclick="showPage('favorites')">
+      ★ FAVORİLER
+     </button>
+    </div>
+   </div>
   </div>
 
-  <div class="toolbar">
-    <button id="voiceStart" onclick="startVoice()">
-      🎙 MERCEDES SESLİ KONTROLÜ BAŞLAT
-    </button>
-    <button id="voiceStop" onclick="stopVoice()">
-      Mikrofonu Kapat
-    </button>
+  <div class="stat-grid">
+   <button class="card stat" onclick="showPage('tv')">
+    <span class="symbol">▣</span>
+    <strong id="tvCount">33</strong>
+    <small>TELEVİZYON KANALI</small>
+   </button>
+   <button class="card stat" onclick="showPage('radio')">
+    <span class="symbol">◉</span>
+    <strong id="radioCount">25</strong>
+    <small>RADYO İSTASYONU</small>
+   </button>
+   <button class="card stat" onclick="showPage('favorites')">
+    <span class="symbol">★</span>
+    <strong id="favCount">0</strong>
+    <small>FAVORİ KANAL</small>
+   </button>
+   <button class="card stat" onclick="startVoice()">
+    <span class="symbol">🎙</span>
+    <strong>SES</strong>
+    <small id="voiceHomeStatus">KOMUTU BAŞLAT</small>
+   </button>
   </div>
+ </div>
 
-  <div class="status-line">
-    <span id="voiceDot" class="dot"></span>
-    <span id="homeVoiceStatus">
-      Mikrofon kapalı
-    </span>
-  </div>
+ <div class="section-head">
+  <h2>Hızlı Erişim</h2>
+  <span class="muted small">Tüm içerikler tek yerde</span>
+ </div>
+
+ <div class="tiles">
+  <button class="tile" onclick="showPage('tv')">
+   <span class="symbol">📺</span>
+   <strong>Televizyon</strong>
+   <small>Canlı TV yayınları</small>
+  </button>
+  <button class="tile" onclick="showPage('radio')">
+   <span class="symbol">📻</span>
+   <strong>Radyo</strong>
+   <small>Canlı radyo istasyonları</small>
+  </button>
+  <button class="tile" onclick="showPage('children')">
+   <span class="symbol">🧸</span>
+   <strong>Çocuk</strong>
+   <small>Çocuk kanalları</small>
+  </button>
+  <button class="tile" onclick="showPage('youtube')">
+   <span class="symbol">▶️</span>
+   <strong>YouTube</strong>
+   <small>Video ara veya aç</small>
+  </button>
+ </div>
 </section>
 
-<section id="catalog" class="panel" hidden>
-  <div class="searchbar">
-    <h2 id="listTitle">Kanallar</h2>
-    <input id="search" type="search"
-      placeholder="Kanal veya radyo ara..."
-      oninput="renderChannels()">
+<section id="catalogView" class="view" hidden>
+ <div class="eyebrow">LIVE CHANNEL DIRECTORY</div>
+ <div class="searchrow">
+  <div>
+   <h1 id="catalogTitle">Televizyon</h1>
+   <div class="muted small" id="catalogSubtitle">
+    Kanallar
+   </div>
   </div>
-  <div id="tabs" class="toolbar"></div>
-  <div id="channelGrid" class="grid"></div>
-  <div class="toolbar">
-    <button onclick="showPage('home')">
-      ⌂ Ana Sayfa
-    </button>
-  </div>
+  <input id="searchInput" type="search"
+   placeholder="Kanal ara..."
+   oninput="renderChannels()">
+ </div>
+ <div id="tabs" class="toolbar"></div>
+ <div id="channelGrid" class="channels"></div>
 </section>
 
-<section id="youtubePage" class="panel" hidden>
-  <h2>▶ YouTube</h2>
-  <p class="muted">
-    YouTube'da içerik arayın veya bir video bağlantısı
-    girin. Gömülü oynatma, videonun izinlerine bağlıdır.
-  </p>
-  <div class="youtube-form">
-    <input id="ytInput"
-      placeholder="Video bağlantısı veya arama">
-    <button onclick="openYouTube()">Aç / Ara</button>
-  </div>
-  <div class="toolbar">
-    <button onclick="searchYouTube('TRT Çocuk')">
-      TRT Çocuk
-    </button>
-    <button onclick="searchYouTube('Çocuk çizgi film')">
-      Çizgi Film
-    </button>
-    <button onclick="searchYouTube('Çocuk eğitici videolar')">
-      Eğitici
-    </button>
-  </div>
-  <div id="ytResult"></div>
-  <div class="toolbar">
-    <button onclick="showPage('home')">⌂ Ana Sayfa</button>
-  </div>
+<section id="youtubeView" class="view" hidden>
+ <div class="eyebrow">ONLINE VIDEO</div>
+ <h1>YouTube</h1>
+ <p class="muted">
+  Bir video bağlantısı yapıştırın veya içerik arayın.
+  Gömülü oynatma YouTube izinlerine bağlıdır.
+ </p>
+ <div class="youtube-form">
+  <input id="ytInput"
+   placeholder="YouTube bağlantısı veya arama">
+  <button class="primary" onclick="openYouTube()">
+   ▶ AÇ / ARA
+  </button>
+ </div>
+ <div class="toolbar">
+  <button onclick="searchYouTube('TRT Çocuk')">TRT Çocuk</button>
+  <button onclick="searchYouTube('Çizgi film')">Çizgi Film</button>
+  <button onclick="searchYouTube('Eğitici çocuk videoları')">Eğitici</button>
+ </div>
+ <div id="ytResult"></div>
 </section>
 
-<section id="mirrorPage" class="panel" hidden>
-  <h2>🖥️ Ekran Aktarımı</h2>
-  <div class="notice">
-    Bu bölüm yalnızca tarayıcının desteklediği
-    ekran yakalama özelliğini kullanır.
-    iPhone'un tüm ekranını standart Apple CarPlay
-    üzerinden Mercedes ekranına yansıtamaz.
-    Araç hareket hâlindeyken sürücünün görebildiği
-    ekranda video izlenmemelidir.
-  </div>
-  <div class="toolbar">
-    <button onclick="previewScreen()">
-      Desteklenen Ekranı Paylaş
-    </button>
-    <button onclick="stopScreen()">
-      Paylaşımı Durdur
-    </button>
-  </div>
-  <video id="mirrorVideo"
-    autoplay muted playsinline controls
-    style="width:100%;max-height:55vh;background:black;
-      border-radius:12px"></video>
-  <p id="mirrorStatus" class="muted">
-    Ekran paylaşımı başlatılmadı.
-  </p>
-  <div class="toolbar">
-    <button onclick="showPage('home')">⌂ Ana Sayfa</button>
-  </div>
-</section>
+<section id="settingsView" class="view" hidden>
+ <div class="eyebrow">SYSTEM CONFIGURATION</div>
+ <h1>Sistem Ayarları</h1>
 
-<section id="settingsPage" class="panel" hidden>
-  <h2>⚙️ Ayarlar</h2>
-
-  <h3>Ortam Aydınlatması</h3>
-  <div id="palette"></div>
-
-  <h3>Yayın Bağlantısı</h3>
-  <div class="toolbar">
-    <button onclick="retryCurrent()">
-      ↻ Yayını Yeniden Bağla
-    </button>
-    <button onclick="clearFavorites()">
-      Favorileri Temizle
-    </button>
-  </div>
-
+ <div class="card" style="margin-top:20px">
+  <h2>Ortam Aydınlatması</h2>
   <p class="muted small">
-    Favoriler ve seçilen ortam rengi bu tarayıcıda
-    saklanır. Sesli kontrol, tarayıcı ve iOS
-    kısıtlamalarına bağlıdır.
+   Dijital kokpitin vurgu rengini seçin.
   </p>
+  <div id="palette" class="palette"></div>
+ </div>
 
-  <div class="toolbar">
-    <button onclick="showPage('home')">⌂ Ana Sayfa</button>
+ <div class="card" style="margin-top:15px">
+  <h2>Yayın Yönetimi</h2>
+  <div class="setting-row">
+   <div>
+    <strong>Bağlantıyı Yenile</strong>
+    <div class="muted small">
+     Mevcut yayını yeniden başlatır.
+    </div>
+   </div>
+   <button onclick="retryCurrent()">↻ YENİDEN BAĞLAN</button>
   </div>
+  <div class="setting-row">
+   <div>
+    <strong>Favorileri Temizle</strong>
+    <div class="muted small">
+     Kaydedilen favorileri siler.
+    </div>
+   </div>
+   <button onclick="clearFavorites()">TEMİZLE</button>
+  </div>
+ </div>
+
+ <div class="card" style="margin-top:15px">
+  <h2>Sesli Kontrol</h2>
+  <p class="muted small" id="voiceSettingsStatus">
+   Mikrofon kapalı.
+  </p>
+  <div class="toolbar">
+   <button class="primary" onclick="startVoice()">
+    🎙 MİKROFONU BAŞLAT
+   </button>
+   <button onclick="stopVoice()">
+    MİKROFONU KAPAT
+   </button>
+  </div>
+  <div class="notice">
+   Örnek komutlar: “Mercedes TRT 1'i aç”,
+   “Mercedes sonraki kanal”,
+   “Mercedes sesi yükselt”,
+   “Mercedes tam ekran”.
+   Ses tanıma desteği tarayıcıya bağlıdır.
+  </div>
+ </div>
+
+ <div class="card" style="margin-top:15px">
+  <h2>Ekran Paylaşımı</h2>
+  <div class="notice">
+   Desteklenen tarayıcılarda yerel ekran ön izlemesi
+   yapılabilir. Bu özellik iPhone ekranını standart
+   Apple CarPlay'e yansıtmaz. Araç hareket hâlindeyken
+   sürücünün görebildiği ekranda video izlenmemelidir.
+  </div>
+  <div class="toolbar">
+   <button onclick="startScreenPreview()">Ekran Ön İzlemesi</button>
+   <button onclick="stopScreenPreview()">Durdur</button>
+  </div>
+  <video id="screenPreview" autoplay muted playsinline controls
+   style="width:100%;max-height:300px;background:black;border-radius:12px">
+  </video>
+  <p class="muted small" id="screenStatus">
+   Paylaşım kapalı.
+  </p>
+ </div>
 </section>
 
 </main>
 
+<div class="bottombar">
+ <div class="bottom-now">
+  <div class="bottom-art" id="bottomIcon">♛</div>
+  <div class="bottom-info">
+   <strong id="bottomName">ŞEHZADE MEDIA</strong>
+   <small id="bottomSubtitle">Yayın seçilmedi</small>
+  </div>
+ </div>
+
+ <div class="bottom-controls">
+  <button onclick="step(-1)" title="Önceki">⏮</button>
+  <button class="play" onclick="bottomPlay()" title="Oynat / Duraklat">▶</button>
+  <button onclick="step(1)" title="Sonraki">⏭</button>
+ </div>
+
+ <div class="bottom-extra">
+  <span class="status-pill" id="bottomStatus">● HAZIR</span>
+  <button onclick="openCurrentPlayer()" title="Oynatıcı">⛶</button>
+  <button onclick="startVoice()" title="Mikrofon">🎙</button>
+ </div>
+</div>
+
+</div>
+
 <div id="player">
-  <div class="player-head">
-    <strong id="playerTitle">Canlı Yayın</strong>
-    <div>
-      <button onclick="setTheater(true)">⛶</button>
-      <button onclick="closePlayer()">✕</button>
+ <div class="player-head">
+  <strong id="playerTitle">CANLI YAYIN</strong>
+  <div>
+   <button onclick="setTheater(true)">⛶ TAM EKRAN</button>
+   <button onclick="closePlayer()">✕ KAPAT</button>
+  </div>
+ </div>
+
+ <div class="stage">
+  <video id="video" autoplay playsinline controls></video>
+
+  <div id="radioScene" class="radio-scene paused">
+   <div class="equalizer" id="equalizer"></div>
+
+   <div class="turbine-wrap">
+    <div class="turbine">
+     <div class="ring r1"></div>
+     <div class="ring r2"></div>
+     <div class="ring r3"></div>
+     <div class="blades"></div>
+     <div class="core">
+      <svg viewBox="0 0 300 300"
+       xmlns="http://www.w3.org/2000/svg">
+       <defs>
+        <linearGradient id="chrome" x1="0" y1="0" x2="1" y2="1">
+         <stop offset="0%" stop-color="#fff"/>
+         <stop offset="30%" stop-color="#829fbb"/>
+         <stop offset="60%" stop-color="#fff"/>
+         <stop offset="100%" stop-color="#67839e"/>
+        </linearGradient>
+       </defs>
+       <circle cx="150" cy="150" r="138"
+        fill="none" stroke="url(#chrome)" stroke-width="10"/>
+       <circle cx="150" cy="150" r="124"
+        fill="none" stroke="#d8eaff" stroke-width="2"/>
+       <path d="M150 18 L164 150 L150 162 L136 150 Z"
+        fill="url(#chrome)"/>
+       <path d="M150 162 L136 150 L30 236 L150 177 Z"
+        fill="url(#chrome)"/>
+       <path d="M150 162 L164 150 L270 236 L150 177 Z"
+        fill="url(#chrome)"/>
+       <circle cx="150" cy="157" r="9" fill="#fff"/>
+      </svg>
+     </div>
     </div>
+   </div>
+
+   <div class="radio-title" id="radioTitle">
+    ŞEHZADE RADIO
+   </div>
   </div>
 
-  <div class="stage">
-    <video id="media" autoplay playsinline controls></video>
+  <button id="exitTheater" onclick="setTheater(false)">
+   ✕ ÇIKIŞ
+  </button>
+ </div>
 
-    <div id="radioScene" class="radio-scene paused">
-      <div id="equalizer" class="equalizer"></div>
-
-      <div class="turbine-wrap">
-        <div class="turbine">
-          <div class="ring one"></div>
-          <div class="ring two"></div>
-          <div class="ring three"></div>
-          <div class="blades"></div>
-          <div class="star-center">
-            <svg viewBox="0 0 300 300"
-              xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <linearGradient id="chrome"
-                  x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%" stop-color="#ffffff"/>
-                  <stop offset="40%" stop-color="#8faac5"/>
-                  <stop offset="70%" stop-color="#ffffff"/>
-                  <stop offset="100%" stop-color="#6685a5"/>
-                </linearGradient>
-              </defs>
-              <circle cx="150" cy="150" r="140"
-                fill="none" stroke="url(#chrome)"
-                stroke-width="10"/>
-              <circle cx="150" cy="150" r="125"
-                fill="none" stroke="#a6c5e4"
-                stroke-width="2"/>
-              <path d="M150 20 L164 150 L150 162
-                L136 150 Z"
-                fill="url(#chrome)"/>
-              <path d="M150 162 L136 150 L30 236
-                L150 177 Z"
-                fill="url(#chrome)"/>
-              <path d="M150 162 L164 150 L270 236
-                L150 177 Z"
-                fill="url(#chrome)"/>
-              <circle cx="150" cy="157" r="10"
-                fill="#e6f6ff"/>
-            </svg>
-          </div>
-        </div>
-      </div>
-
-      <div id="radioLabel" class="radio-label">
-        ŞEHZADE RADIO
-      </div>
-    </div>
-
-    <button id="exitTheater"
-      onclick="setTheater(false)">
-      ✕ Tam Ekrandan Çık
-    </button>
+ <div class="player-foot">
+  <div id="playStatus">Yayın hazır.</div>
+  <div class="player-controls">
+   <button onclick="step(-1)">⏮ ÖNCEKİ</button>
+   <button onclick="togglePlayback()">⏯ OYNAT / DUR</button>
+   <button onclick="step(1)">SONRAKİ ⏭</button>
+   <button onclick="setMuted(true)">🔇</button>
+   <button onclick="setMuted(false)">🔊</button>
+   <button onclick="changeVolume(-.1)">SES −</button>
+   <button onclick="changeVolume(.1)">SES +</button>
+   <button onclick="toggleCurrentFavorite()">★ FAVORİ</button>
+   <button onclick="startVoice()">🎙 MİKROFON</button>
+   <button onclick="retryCurrent()">↻ YENİLE</button>
   </div>
-
-  <div class="player-foot">
-    <div id="playStatus">Hazır</div>
-    <div id="voiceStatus">🎙 Mikrofon kapalı</div>
-
-    <div class="controls">
-      <button onclick="step(-1)">◀ Önceki</button>
-      <button onclick="togglePlayback()">⏯ Oynat / Dur</button>
-      <button onclick="step(1)">Sonraki ▶</button>
-      <button onclick="setMuted(true)">🔇</button>
-      <button onclick="setMuted(false)">🔊</button>
-      <button onclick="changeVolume(-.1)">Ses −</button>
-      <button onclick="changeVolume(.1)">Ses +</button>
-      <button onclick="startVoice()">🎙 Mikrofon</button>
-      <button onclick="setTheater(true)">⛶ Tam Ekran</button>
-      <button onclick="toggleCurrentFavorite()">☆ Favori</button>
-    </div>
-  </div>
+ </div>
 </div>
 
 <div id="toast" role="status"></div>
 
-<footer>
-  ♛ ŞEHZADE MEDIA V13 ULTIMATE
-  <div>Mercedes Digital Cockpit Experience</div>
-</footer>
-
 <script>
 "use strict";
 
-const $ = id => document.getElementById(id);
+const $=id=>document.getElementById(id);
 
-function norm(v){
-  return String(v)
-    .toLocaleLowerCase("tr-TR")
-    .replace(/ı/g,"i")
-    .replace(/ğ/g,"g")
-    .replace(/ü/g,"u")
-    .replace(/ş/g,"s")
-    .replace(/ö/g,"o")
-    .replace(/ç/g,"c")
-    .replace(/[^\w\s]/g," ")
-    .replace(/\s+/g," ")
-    .trim();
+function normalize(text){
+ return String(text)
+  .toLocaleLowerCase("tr-TR")
+  .replace(/ı/g,"i").replace(/ğ/g,"g")
+  .replace(/ü/g,"u").replace(/ş/g,"s")
+  .replace(/ö/g,"o").replace(/ç/g,"c")
+  .replace(/[^\w\s]/g," ")
+  .replace(/\s+/g," ").trim();
 }
 
-function storeGet(key,fallback){
-  try{
-    const x=localStorage.getItem(key);
-    return x===null?fallback:JSON.parse(x);
-  }catch(e){return fallback}
+function getSaved(key,fallback){
+ try{
+  const value=localStorage.getItem(key);
+  return value===null?fallback:JSON.parse(value);
+ }catch(e){return fallback}
 }
-
-function storeSet(key,value){
-  try{localStorage.setItem(key,JSON.stringify(value))}
-  catch(e){}
+function save(key,value){
+ try{localStorage.setItem(key,JSON.stringify(value))}
+ catch(e){}
 }
-
 function toast(message){
-  const el=$("toast");
-  el.textContent=message;
-  el.classList.add("show");
-  clearTimeout(toast.timer);
-  toast.timer=setTimeout(
-    ()=>el.classList.remove("show"),3500
-  );
+ const el=$("toast");
+ el.textContent=message;
+ el.classList.add("show");
+ clearTimeout(toast.timer);
+ toast.timer=setTimeout(()=>el.classList.remove("show"),3000);
 }
 
-/* TV KANALLARI */
+/* =================================================
+   KANAL VERİ TABANI
+   ================================================= */
 
 const TV=[
 ["TRT 1","📺","Ulusal",["https://tv-trt1.medya.trt.com.tr/master.m3u8"]],
@@ -713,8 +975,6 @@ const TV=[
 ["TRT Diyanet Çocuk","🧸","Çocuk",["https://tv-trtdiyanetcocuk.medya.trt.com.tr/master.m3u8"]]
 ];
 
-/* RADYO İSTASYONLARI */
-
 const RADIO=[
 ["TRT FM","📻","Radyo",["https://radio-trtfm.live.trt.com.tr/master.m3u8"]],
 ["TRT Radyo 1","🎙","Radyo",["https://rd-trtradyo1.medya.trt.com.tr/master.m3u8"]],
@@ -744,1076 +1004,997 @@ const RADIO=[
 ];
 
 const ALL=[...TV,...RADIO];
-const media=$("media");
+const video=$("video");
 
-let favorites=new Set(storeGet("sm_favorites",[]));
 let current=null;
 let page="home";
 let hls=null;
 let playToken=0;
 let retryTimer=null;
-let watchdog=null;
 let connectTimer=null;
-let recoveryCount=0;
+let watchdog=null;
 let sourceIndex=0;
-let lastProgress=0;
+let recoveries=0;
 let userPaused=false;
-let playerOpen=false;
-let stream=null;
+let playerVisible=false;
+let favorites=new Set(getSaved("sm_favorites",[]));
 
-const MAX_RECOVERY=6;
-const CONNECT_TIMEOUT=16000;
-const STALL_TIMEOUT=12000;
+const MAX_RECOVERIES=7;
+const CONNECT_TIMEOUT=18000;
+const STALL_TIMEOUT=14000;
+
+/* =================================================
+   ARAYÜZ
+   ================================================= */
 
 function updateClock(){
-  const now=new Date();
-  $("clock").textContent=now.toLocaleTimeString(
-    "tr-TR",{hour:"2-digit",minute:"2-digit"}
-  );
-  $("date").textContent=now.toLocaleDateString(
-    "tr-TR",{
-      day:"numeric",month:"long",
-      year:"numeric",weekday:"long"
-    }
-  );
+ const d=new Date();
+ $("clock").textContent=d.toLocaleTimeString(
+  "tr-TR",{hour:"2-digit",minute:"2-digit"}
+ );
+ $("date").textContent=d.toLocaleDateString(
+  "tr-TR",{day:"numeric",month:"short",year:"numeric"}
+ );
 }
-
 updateClock();
 setInterval(updateClock,15000);
 
 function updateCounts(){
-  $("tvCount").textContent=TV.length+" kanal";
-  $("radioCount").textContent=RADIO.length+" istasyon";
+ $("tvCount").textContent=TV.length;
+ $("radioCount").textContent=RADIO.length;
+ $("favCount").textContent=favorites.size;
 }
 
 function showPage(name){
-  page=name;
+ page=name;
 
-  $("home").hidden=name!=="home";
-  $("catalog").hidden=![
-    "tv","radio","favorites","children","all",
-    "Ulusal","Haber","Spor","Ekonomi",
-    "Belgesel","Müzik"
-  ].includes(name);
+ $("homeView").hidden=name!=="home";
+ $("catalogView").hidden=![
+  "tv","radio","favorites","children",
+  "Ulusal","Haber","Spor","Ekonomi",
+  "Belgesel","Müzik"
+ ].includes(name);
+ $("youtubeView").hidden=name!=="youtube";
+ $("settingsView").hidden=name!=="settings";
 
-  $("youtubePage").hidden=name!=="youtube";
-  $("mirrorPage").hidden=name!=="mirror";
-  $("settingsPage").hidden=name!=="settings";
+ document.querySelectorAll(".nav").forEach(b=>{
+  b.classList.toggle("active",b.dataset.page===name);
+ });
 
-  if(!$("catalog").hidden){
-    $("search").value="";
-    renderTabs();
-    renderChannels();
-  }
+ if(!$("catalogView").hidden){
+  $("searchInput").value="";
+  renderTabs();
+  renderChannels();
+ }
 }
 
 function renderTabs(){
-  const tabs=[
-    ["tv","📺 TV"],
-    ["Ulusal","Ulusal"],
-    ["Haber","Haber"],
-    ["Spor","Spor"],
-    ["Ekonomi","Ekonomi"],
-    ["Belgesel","Belgesel"],
-    ["Müzik","Müzik"],
-    ["children","Çocuk"],
-    ["radio","📻 Radyo"],
-    ["favorites","⭐ Favoriler"]
-  ];
+ const options=[
+  ["tv","TÜM TV"],
+  ["Ulusal","ULUSAL"],
+  ["Haber","HABER"],
+  ["Spor","SPOR"],
+  ["Ekonomi","EKONOMİ"],
+  ["Belgesel","BELGESEL"],
+  ["Müzik","MÜZİK"],
+  ["children","ÇOCUK"],
+  ["radio","RADYO"],
+  ["favorites","FAVORİLER"]
+ ];
+ const tabs=$("tabs");
+ tabs.replaceChildren();
 
-  const el=$("tabs");
-  el.replaceChildren();
-
-  for(const [key,label] of tabs){
-    const b=document.createElement("button");
-    b.textContent=label;
-    b.className=page===key?"active":"";
-    b.onclick=()=>showPage(key);
-    el.append(b);
-  }
+ for(const [key,label] of options){
+  const b=document.createElement("button");
+  b.textContent=label;
+  b.className=page===key?"active":"";
+  b.onclick=()=>showPage(key);
+  tabs.append(b);
+ }
 }
 
-function listForPage(){
-  if(page==="tv")return TV;
-  if(page==="radio")return RADIO;
-  if(page==="favorites"){
-    return ALL.filter(x=>favorites.has(x[0]));
-  }
-  if(page==="children"){
-    return TV.filter(x=>x[2]==="Çocuk");
-  }
-  if(page==="all")return ALL;
-  return TV.filter(x=>x[2]===page);
+function getPageChannels(){
+ if(page==="tv")return TV;
+ if(page==="radio")return RADIO;
+ if(page==="favorites"){
+  return ALL.filter(x=>favorites.has(x[0]));
+ }
+ if(page==="children"){
+  return TV.filter(x=>x[2]==="Çocuk");
+ }
+ return TV.filter(x=>x[2]===page);
 }
 
 function renderChannels(){
-  const titles={
-    tv:"📺 Televizyon",
-    radio:"📻 Radyo",
-    favorites:"⭐ Favoriler",
-    children:"🧸 Çocuk Kanalları",
-    all:"🔎 Tüm Kanallar"
+ const titles={
+  tv:"Televizyon",
+  radio:"Radyo",
+  favorites:"Favoriler",
+  children:"Çocuk Kanalları"
+ };
+ $("catalogTitle").textContent=titles[page]||page;
+
+ const query=normalize($("searchInput").value);
+ const list=getPageChannels().filter(
+  x=>normalize(x[0]).includes(query)
+ );
+
+ $("catalogSubtitle").textContent=
+  list.length+" kanal / istasyon";
+
+ const grid=$("channelGrid");
+ grid.replaceChildren();
+
+ if(!list.length){
+  grid.textContent="Kanal bulunamadı.";
+  return;
+ }
+
+ for(const ch of list){
+  const card=document.createElement("div");
+  card.className="channel";
+  if(current&&current[0]===ch[0]){
+   card.classList.add("playing");
+  }
+
+  const open=document.createElement("button");
+  open.className="open";
+  open.onclick=()=>openChannel(ch);
+
+  const symbol=document.createElement("span");
+  symbol.className="symbol";
+  symbol.textContent=ch[1];
+
+  const name=document.createElement("span");
+  name.className="name";
+  name.textContent=ch[0];
+
+  const category=document.createElement("span");
+  category.className="category";
+  category.textContent=ch[2];
+
+  open.append(symbol,name,category);
+
+  const fav=document.createElement("button");
+  fav.className="fav";
+  fav.textContent=favorites.has(ch[0])?"★":"☆";
+  fav.setAttribute("aria-label","Favoriyi değiştir");
+  fav.onclick=()=>{
+   toggleFavorite(ch[0]);
+   renderChannels();
   };
 
-  $("listTitle").textContent=titles[page]||page;
-
-  const q=norm($("search").value);
-  const list=listForPage().filter(
-    x=>norm(x[0]).includes(q)
-  );
-
-  const grid=$("channelGrid");
-  grid.replaceChildren();
-
-  if(!list.length){
-    grid.textContent="Kanal bulunamadı.";
-    return;
-  }
-
-  for(const channel of list){
-    const card=document.createElement("div");
-    card.className="channel";
-
-    const open=document.createElement("button");
-    open.className="open";
-
-    const symbol=document.createElement("span");
-    symbol.className="symbol";
-    symbol.textContent=channel[1];
-
-    const name=document.createElement("span");
-    name.className="name";
-    name.textContent=channel[0];
-
-    const category=document.createElement("span");
-    category.className="category";
-    category.textContent=channel[2];
-
-    open.append(symbol,name,category);
-    open.onclick=()=>openChannel(channel);
-
-    const star=document.createElement("button");
-    star.className="star";
-    star.setAttribute(
-      "aria-label","Favoriye ekle veya çıkar"
-    );
-    star.textContent=favorites.has(channel[0])
-      ?"★":"☆";
-
-    star.onclick=()=>{
-      toggleFavorite(channel[0]);
-      renderChannels();
-    };
-
-    card.append(open,star);
-    grid.append(card);
-  }
+  card.append(open,fav);
+  grid.append(card);
+ }
 }
 
 function toggleFavorite(name){
-  if(favorites.has(name)){
-    favorites.delete(name);
-    toast("Favorilerden çıkarıldı");
-  }else{
-    favorites.add(name);
-    toast("Favorilere eklendi");
-  }
-  storeSet("sm_favorites",[...favorites]);
+ if(favorites.has(name)){
+  favorites.delete(name);
+  toast("Favorilerden çıkarıldı");
+ }else{
+  favorites.add(name);
+  toast("Favorilere eklendi");
+ }
+ save("sm_favorites",[...favorites]);
+ updateCounts();
 }
 
 function toggleCurrentFavorite(){
-  if(!current)return;
-  toggleFavorite(current[0]);
+ if(current)toggleFavorite(current[0]);
 }
 
 function clearFavorites(){
-  if(!confirm("Favoriler temizlensin mi?"))return;
-  favorites.clear();
-  storeSet("sm_favorites",[]);
-  toast("Favoriler temizlendi");
+ if(!confirm("Favoriler temizlensin mi?"))return;
+ favorites.clear();
+ save("sm_favorites",[]);
+ updateCounts();
+ toast("Favoriler temizlendi");
 }
 
-/* RADYO ANİMASYONU */
+/* =================================================
+   RADYO GÖRSEL MOTORU
+   ================================================= */
 
 function buildEqualizer(){
-  const el=$("equalizer");
-  el.replaceChildren();
+ const eq=$("equalizer");
+ eq.replaceChildren();
 
-  for(let i=0;i<44;i++){
-    const bar=document.createElement("div");
-    bar.className="bar";
-    bar.style.setProperty(
-      "--speed",(.6+(i*17%19)/20)+"s"
-    );
-    bar.style.setProperty(
-      "--delay",(-(i*13%27)/10)+"s"
-    );
-    bar.style.setProperty(
-      "--peak",(20+(i*23%75))+"%"
-    );
-    el.append(bar);
-  }
+ for(let i=0;i<46;i++){
+  const bar=document.createElement("div");
+  bar.className="eqbar";
+  bar.style.setProperty(
+   "--speed",(.6+(i*17%19)/20)+"s"
+  );
+  bar.style.setProperty(
+   "--delay",(-(i*13%27)/10)+"s"
+  );
+  bar.style.setProperty(
+   "--peak",(20+(i*23%75))+"%"
+  );
+  eq.append(bar);
+ }
 }
 
 function animateRadio(active){
-  $("radioScene").classList.toggle(
-    "paused",!active
-  );
+ $("radioScene").classList.toggle("paused",!active);
 }
 
-/* OYNATICI */
+/* =================================================
+   YAYIN MOTORU
+   ================================================= */
 
-function setPlayStatus(text){
-  $("playStatus").textContent=text;
+function setStatus(message){
+ $("playStatus").textContent=message;
+ $("bottomStatus").textContent=message.length>30
+  ?"● YAYIN DURUMU":"● "+message;
 }
 
-function clearPlaybackTimers(){
-  clearTimeout(retryTimer);
-  clearTimeout(connectTimer);
-  clearInterval(watchdog);
-  retryTimer=null;
-  connectTimer=null;
-  watchdog=null;
+function clearTimers(){
+ clearTimeout(retryTimer);
+ clearTimeout(connectTimer);
+ clearInterval(watchdog);
+ retryTimer=null;
+ connectTimer=null;
+ watchdog=null;
 }
 
-function destroyEngine(){
-  if(hls){
-    try{hls.destroy()}catch(e){}
-    hls=null;
-  }
+function destroyMedia(){
+ if(hls){
+  try{hls.destroy()}catch(e){}
+  hls=null;
+ }
 
-  media.onerror=null;
-  media.onplaying=null;
+ video.onplaying=null;
+ video.onerror=null;
 
-  try{media.pause()}catch(e){}
-  media.removeAttribute("src");
-  media.load();
+ try{video.pause()}catch(e){}
+ video.removeAttribute("src");
+ video.load();
 }
 
-function stopPlayback(){
-  playToken++;
-  clearPlaybackTimers();
-  destroyEngine();
-  animateRadio(false);
+function stopStream(){
+ playToken++;
+ clearTimers();
+ destroyMedia();
+ animateRadio(false);
 }
 
-function openChannel(channel){
-  if(!channel)return;
+function updateNowPlaying(ch){
+ $("heroName").textContent=ch[0];
+ $("heroSubtitle").textContent=
+  ch[2]==="Radyo"?"CANLI RADYO":"CANLI TELEVİZYON";
 
-  current=channel;
-  playerOpen=true;
-  userPaused=false;
-  recoveryCount=0;
-  sourceIndex=0;
+ $("bottomName").textContent=ch[0];
+ $("bottomSubtitle").textContent=ch[2];
+ $("bottomIcon").textContent=ch[1];
+ $("playerTitle").textContent=ch[1]+" "+ch[0];
+ $("radioTitle").textContent=ch[0];
+}
 
-  $("nowName").textContent=channel[0];
-  $("playerTitle").textContent=
-    channel[1]+" "+channel[0];
-  $("radioLabel").textContent=channel[0];
+function openChannel(ch){
+ if(!ch)return;
 
-  $("player").classList.add("open");
-  $("player").classList.toggle(
-    "radio-mode",channel[2]==="Radyo"
-  );
+ current=ch;
+ sourceIndex=0;
+ recoveries=0;
+ userPaused=false;
+ playerVisible=true;
 
-  storeSet("sm_last_channel",channel[0]);
+ updateNowPlaying(ch);
 
-  loadChannel();
+ $("player").classList.add("open");
+ $("player").classList.toggle(
+  "radio-mode",ch[2]==="Radyo"
+ );
+
+ save("sm_last_channel",ch[0]);
+ loadChannel();
+}
+
+function openCurrentPlayer(){
+ if(!current){
+  resumeLast();
+  return;
+ }
+ playerVisible=true;
+ $("player").classList.add("open");
 }
 
 function closePlayer(){
-  playerOpen=false;
-  setTheater(false);
-  stopPlayback();
-  $("player").classList.remove(
-    "open","radio-mode"
-  );
+ playerVisible=false;
+ setTheater(false);
+ stopStream();
+ $("player").classList.remove("open","radio-mode");
+ setStatus("Yayın kapatıldı");
 }
 
 function resumeLast(){
-  if(current){
-    openChannel(current);
-    return;
-  }
+ if(current){
+  openChannel(current);
+  return;
+ }
 
-  const last=storeGet("sm_last_channel",null);
-  const found=ALL.find(x=>x[0]===last);
+ const last=getSaved("sm_last_channel",null);
+ const found=ALL.find(x=>x[0]===last);
 
-  if(found)openChannel(found);
-  else showPage("radio");
+ if(found)openChannel(found);
+ else showPage("radio");
 }
 
 function currentList(){
-  if(!current)return [];
-
-  return current[2]==="Radyo"?RADIO:TV;
+ if(!current)return [];
+ return current[2]==="Radyo"?RADIO:TV;
 }
 
 function step(direction){
-  if(!current){
-    resumeLast();
-    return;
-  }
+ if(!current){
+  resumeLast();
+  return;
+ }
 
-  const list=currentList();
-  const i=list.findIndex(
-    x=>x[0]===current[0]
-  );
+ const list=currentList();
+ const i=list.findIndex(x=>x[0]===current[0]);
+ const next=(i+direction+list.length)%list.length;
 
-  const next=(i+direction+list.length)
-    %list.length;
-
-  openChannel(list[next]);
+ openChannel(list[next]);
 }
 
-function playMedia(){
-  const promise=media.play();
-
-  if(promise&&promise.catch){
-    promise.catch(error=>{
-      if(error.name==="NotAllowedError"){
-        setPlayStatus(
-          "Oynatmak için ▶ düğmesine dokunun"
-        );
-      }
-    });
-  }
+function safePlay(){
+ const p=video.play();
+ if(p&&p.catch){
+  p.catch(e=>{
+   if(e.name==="NotAllowedError"){
+    setStatus("Oynatmak için ▶ düğmesine dokunun");
+   }
+  });
+ }
 }
 
 function loadChannel(){
-  stopPlayback();
+ stopStream();
+ if(!current)return;
 
-  if(!current)return;
-
-  userPaused=false;
-  const token=playToken;
-
-  connectSource(token);
+ userPaused=false;
+ const token=playToken;
+ connectSource(token);
 }
 
 function connectSource(token){
-  if(token!==playToken||!current||!playerOpen){
-    return;
-  }
+ if(token!==playToken||!current)return;
 
-  clearPlaybackTimers();
-  destroyEngine();
+ clearTimers();
+ destroyMedia();
 
-  const urls=current[3];
-  const url=urls[sourceIndex%urls.length];
+ const urls=current[3];
+ const url=urls[sourceIndex%urls.length];
+ let started=false;
+ let failed=false;
 
-  setPlayStatus(
-    "🟡 Bağlanıyor: "+current[0]
-  );
+ setStatus("Bağlanıyor: "+current[0]);
 
-  let started=false;
+ function success(){
+  if(token!==playToken||failed)return;
 
-  function connected(){
-    if(token!==playToken)return;
+  started=true;
+  clearTimeout(connectTimer);
+  recoveries=0;
 
-    started=true;
-    clearTimeout(connectTimer);
-    recoveryCount=0;
-    lastProgress=Date.now();
+  setStatus("CANLI YAYIN");
+  animateRadio(true);
+  startWatchdog(token);
+ }
 
-    setPlayStatus(
-      "🟢 Canlı yayın: "+current[0]
-    );
+ function failure(reason){
+  if(token!==playToken||failed)return;
+  failed=true;
+  clearTimeout(connectTimer);
+  recover(token,reason);
+ }
 
-    animateRadio(true);
-    startWatchdog(token);
-  }
+ video.onplaying=success;
+ video.onerror=()=>failure("Medya hatası");
 
-  function failed(reason){
-    if(token!==playToken)return;
+ connectTimer=setTimeout(
+  ()=>failure("Bağlantı zaman aşımı"),
+  CONNECT_TIMEOUT
+ );
 
-    clearTimeout(connectTimer);
+ const isHLS=/\.m3u8(?:[?#]|$)/i.test(url);
 
-    if(!started){
-      recover(token,reason);
-    }else{
-      recover(token,reason);
-    }
-  }
+ if(isHLS&&window.Hls&&Hls.isSupported()){
+  hls=new Hls({
+   enableWorker:true,
+   lowLatencyMode:false,
+   maxBufferLength:20,
+   backBufferLength:30
+  });
 
-  media.onplaying=connected;
-  media.onerror=()=>failed("Medya hatası");
+  const engine=hls;
+  let mediaRecoveryUsed=false;
 
-  connectTimer=setTimeout(
-    ()=>failed("Bağlantı zaman aşımı"),
-    CONNECT_TIMEOUT
-  );
+  engine.on(Hls.Events.ERROR,(event,data)=>{
+   if(token!==playToken||hls!==engine||
+      !data.fatal)return;
 
-  const isHLS=/\.m3u8(?:[?#]|$)/i.test(url);
+   if(data.type===Hls.ErrorTypes.MEDIA_ERROR &&
+      !mediaRecoveryUsed){
+    mediaRecoveryUsed=true;
+    try{
+     engine.recoverMediaError();
+     return;
+    }catch(e){}
+   }
 
-  if(isHLS&&window.Hls&&Hls.isSupported()){
-    hls=new Hls({
-      enableWorker:true,
-      lowLatencyMode:false,
-      maxBufferLength:20,
-      backBufferLength:30
-    });
+   failure("HLS bağlantı hatası");
+  });
 
-    const engine=hls;
+  engine.attachMedia(video);
 
-    engine.on(Hls.Events.ERROR,(event,data)=>{
-      if(token!==playToken||hls!==engine)return;
-      if(!data.fatal)return;
+  engine.on(Hls.Events.MEDIA_ATTACHED,()=>{
+   if(token!==playToken||hls!==engine)return;
+   engine.loadSource(url);
+   safePlay();
+  });
 
-      if(data.type===Hls.ErrorTypes.MEDIA_ERROR){
-        try{
-          engine.recoverMediaError();
-          return;
-        }catch(e){}
-      }
-
-      failed("HLS bağlantı hatası");
-    });
-
-    engine.attachMedia(media);
-
-    engine.on(Hls.Events.MEDIA_ATTACHED,()=>{
-      if(token===playToken&&hls===engine){
-        engine.loadSource(url);
-        playMedia();
-      }
-    });
-
-  }else{
-    media.src=url;
-    playMedia();
-  }
+ }else{
+  video.src=url;
+  safePlay();
+ }
 }
 
 function startWatchdog(token){
-  clearInterval(watchdog);
+ clearInterval(watchdog);
 
-  let previousTime=media.currentTime;
-  let lastAdvance=Date.now();
+ let previous=video.currentTime;
+ let lastAdvance=Date.now();
 
-  watchdog=setInterval(()=>{
-    if(token!==playToken||!playerOpen||
-       userPaused||media.paused)return;
+ watchdog=setInterval(()=>{
+  if(token!==playToken||userPaused||
+     video.paused)return;
 
-    const now=Date.now();
-    const t=media.currentTime;
+  const now=Date.now();
+  const position=video.currentTime;
 
-    if(Math.abs(t-previousTime)>.05){
-      previousTime=t;
-      lastAdvance=now;
-    }
+  if(Math.abs(position-previous)>.05){
+   previous=position;
+   lastAdvance=now;
+  }
 
-    if(media.readyState>=3&&!media.seeking){
-      if(now-lastAdvance>STALL_TIMEOUT){
-        recover(token,"Yayın dondu");
-      }
-    }
-  },3000);
+  if(now-lastAdvance>STALL_TIMEOUT){
+   recover(token,"Yayın dondu");
+  }
+ },3000);
 }
 
 function recover(token,reason){
-  if(token!==playToken||userPaused||
-     !playerOpen)return;
+ if(token!==playToken||userPaused)return;
 
-  clearPlaybackTimers();
-  destroyEngine();
-  animateRadio(false);
+ clearTimers();
+ destroyMedia();
+ animateRadio(false);
 
-  recoveryCount++;
+ recoveries++;
 
-  if(recoveryCount>MAX_RECOVERY){
-    setPlayStatus(
-      "🔴 Bağlantı kurulamadı. Yeniden dene."
-    );
-    toast("Yayın açılamadı");
-    return;
-  }
+ if(recoveries>MAX_RECOVERIES){
+  setStatus("Bağlantı kurulamadı");
+  toast("Yayın açılamadı. Yeniden deneyin.");
+  return;
+ }
 
-  const urls=current[3];
+ const urls=current[3];
+ if(urls.length>1){
+  sourceIndex=(sourceIndex+1)%urls.length;
+ }
 
-  if(urls.length>1){
-    sourceIndex=(sourceIndex+1)%urls.length;
-  }
+ const delay=Math.min(
+  1000*Math.pow(2,recoveries-1),
+  16000
+ );
 
-  const delay=Math.min(
-    1000*Math.pow(2,recoveryCount-1),
-    15000
-  );
+ setStatus(
+  reason+" · Yeniden bağlanıyor "+
+  recoveries+"/"+MAX_RECOVERIES
+ );
 
-  setPlayStatus(
-    "🟠 "+reason+
-    " · "+Math.round(delay/1000)+
-    " sn sonra tekrar denenecek ("+
-    recoveryCount+"/"+MAX_RECOVERY+")"
-  );
-
-  retryTimer=setTimeout(
-    ()=>connectSource(token),delay
-  );
+ retryTimer=setTimeout(
+  ()=>connectSource(token),delay
+ );
 }
 
 function retryCurrent(){
-  if(!current){
-    toast("Önce bir kanal seçin");
-    return;
-  }
+ if(!current){
+  toast("Önce kanal seçin");
+  return;
+ }
 
-  recoveryCount=0;
-  sourceIndex=0;
-
-  if(!playerOpen){
-    openChannel(current);
-  }else{
-    loadChannel();
-  }
+ recoveries=0;
+ sourceIndex=0;
+ loadChannel();
 }
 
 function togglePlayback(){
-  if(!current)return;
+ if(!current)return;
 
-  if(media.paused){
-    userPaused=false;
-    if(!media.currentSrc){
-      retryCurrent();
-    }else{
-      playMedia();
-    }
+ if(video.paused){
+  userPaused=false;
+  if(!video.currentSrc){
+   retryCurrent();
   }else{
-    userPaused=true;
-    clearPlaybackTimers();
-    media.pause();
-    setPlayStatus("⏸ Yayın duraklatıldı");
-    animateRadio(false);
+   safePlay();
   }
+ }else{
+  userPaused=true;
+  clearTimers();
+  video.pause();
+  animateRadio(false);
+  setStatus("DURAKLATILDI");
+ }
+}
+
+function bottomPlay(){
+ if(!current){
+  resumeLast();
+ }else{
+  togglePlayback();
+ }
 }
 
 function setMuted(value){
-  media.muted=value;
-  toast(value?"Ses kapatıldı":"Ses açıldı");
+ video.muted=value;
+ toast(value?"Ses kapatıldı":"Ses açıldı");
 }
 
-function changeVolume(amount){
-  media.muted=false;
-  media.volume=Math.max(
-    0,Math.min(1,media.volume+amount)
-  );
-
-  toast(
-    "Ses: %"+Math.round(media.volume*100)
-  );
+function changeVolume(delta){
+ video.muted=false;
+ video.volume=Math.max(
+  0,Math.min(1,video.volume+delta)
+ );
+ toast("Ses %"+Math.round(video.volume*100));
 }
 
 function setTheater(value){
-  $("player").classList.toggle(
-    "theater",value
-  );
+ $("player").classList.toggle("theater",value);
 }
 
-/* ORTAM RENKLERİ */
+/* =================================================
+   RENK SİSTEMİ
+   ================================================= */
 
 const COLORS=[
-  "#168cff","#00b7ff","#00e5c5","#4bd76a",
-  "#ffb63e","#ff793f","#ff4e78","#ae79ff",
-  "#ffffff","#79d8ff","#fa6bbd","#355bff",
-  "#e6c18c","#00a38c","#ff3434","#7f91a5"
+ "#29a5ff","#00c8ff","#00dbbd","#40d878",
+ "#ffbb47","#ff7e48","#f04b80","#aa7bff",
+ "#ffffff","#75d5ff","#ef72c0","#385eff",
+ "#e6c18c","#00a891","#f44a4a","#8498aa"
 ];
 
 function applyColor(color){
-  document.documentElement.style.setProperty(
-    "--accent",color
-  );
-
-  storeSet("sm_color",color);
+ document.documentElement.style.setProperty(
+  "--accent",color
+ );
+ save("sm_color",color);
 }
 
 function buildPalette(){
-  const el=$("palette");
-  el.replaceChildren();
+ const el=$("palette");
+ el.replaceChildren();
 
-  for(const color of COLORS){
-    const b=document.createElement("button");
-    b.className="swatch";
-    b.style.background=color;
-    b.setAttribute(
-      "aria-label","Renk "+color
-    );
-    b.onclick=()=>applyColor(color);
-    el.append(b);
-  }
+ for(const color of COLORS){
+  const b=document.createElement("button");
+  b.className="swatch";
+  b.style.background=color;
+  b.setAttribute("aria-label","Renk "+color);
+  b.onclick=()=>applyColor(color);
+  el.append(b);
+ }
 
-  applyColor(storeGet("sm_color","#168cff"));
+ applyColor(getSaved("sm_color","#29a5ff"));
 }
 
-/* YOUTUBE */
+/* =================================================
+   YOUTUBE
+   ================================================= */
 
-function extractYouTubeId(value){
-  try{
-    const u=new URL(value);
+function getYouTubeId(value){
+ try{
+  const u=new URL(value);
+  const host=u.hostname.replace(/^www\./,"");
 
-    const host=u.hostname.replace(/^www\./,"");
+  if(host==="youtu.be"){
+   return u.pathname.split("/")[1]||null;
+  }
 
-    if(host==="youtu.be"){
-      return u.pathname.split("/")[1]||null;
-    }
+  if(host==="youtube.com"||
+     host==="m.youtube.com"){
+   if(u.pathname==="/watch"){
+    return u.searchParams.get("v");
+   }
 
-    if(host==="youtube.com"||
-       host==="m.youtube.com"){
-      if(u.pathname==="/watch"){
-        return u.searchParams.get("v");
-      }
+   const parts=u.pathname.split("/");
+   if(["embed","shorts","live"].includes(parts[1])){
+    return parts[2]||null;
+   }
+  }
+ }catch(e){}
 
-      const parts=u.pathname.split("/");
-      if(["shorts","embed","live"].includes(parts[1])){
-        return parts[2]||null;
-      }
-    }
-  }catch(e){}
-
-  return null;
+ return null;
 }
 
 function openYouTube(){
-  const input=$("ytInput").value.trim();
-  if(!input)return;
+ const input=$("ytInput").value.trim();
+ if(!input)return;
 
-  const id=extractYouTubeId(input);
-  const result=$("ytResult");
-  result.replaceChildren();
+ const id=getYouTubeId(input);
+ const result=$("ytResult");
+ result.replaceChildren();
 
-  if(id&&/^[A-Za-z0-9_-]{11}$/.test(id)){
-    const frame=document.createElement("iframe");
-    frame.className="yt-frame";
-    frame.allow=
-      "accelerometer; autoplay; encrypted-media; "+
-      "gyroscope; picture-in-picture; fullscreen";
-    frame.referrerPolicy=
-      "strict-origin-when-cross-origin";
-    frame.src=
-      "https://www.youtube-nocookie.com/embed/"+
-      encodeURIComponent(id);
-    frame.title="YouTube Video";
-    frame.allowFullscreen=true;
-
-    result.append(frame);
-    toast("Video açılıyor");
-  }else{
-    searchYouTube(input);
-  }
+ if(id&&/^[A-Za-z0-9_-]{11}$/.test(id)){
+  const frame=document.createElement("iframe");
+  frame.className="youtube-frame";
+  frame.src=
+   "https://www.youtube-nocookie.com/embed/"+
+   encodeURIComponent(id);
+  frame.title="YouTube";
+  frame.allow=
+   "autoplay; encrypted-media; picture-in-picture; fullscreen";
+  frame.referrerPolicy="strict-origin-when-cross-origin";
+  frame.allowFullscreen=true;
+  result.append(frame);
+ }else{
+  searchYouTube(input);
+ }
 }
 
 function searchYouTube(query){
-  $("ytInput").value=query;
+ $("ytInput").value=query;
+ const url=
+  "https://www.youtube.com/results?search_query="+
+  encodeURIComponent(query);
 
-  const url=
-    "https://www.youtube.com/results?search_query="+
-    encodeURIComponent(query);
-
-  window.open(url,"_blank","noopener,noreferrer");
+ window.open(url,"_blank","noopener,noreferrer");
 }
 
-/* EKRAN PAYLAŞIMI ÖN İZLEME */
+/* =================================================
+   EKRAN ÖN İZLEME
+   ================================================= */
 
-async function previewScreen(){
-  const status=$("mirrorStatus");
+let screenStream=null;
 
-  if(!navigator.mediaDevices?.getDisplayMedia){
-    status.textContent=
-      "Bu tarayıcı ekran paylaşımını desteklemiyor.";
-    return;
-  }
+async function startScreenPreview(){
+ if(!navigator.mediaDevices?.getDisplayMedia){
+  $("screenStatus").textContent=
+   "Bu tarayıcı ekran yakalamayı desteklemiyor.";
+  return;
+ }
 
-  try{
-    stopScreen();
+ try{
+  stopScreenPreview();
 
-    stream=await navigator.mediaDevices
-      .getDisplayMedia({
-        video:true,
-        audio:false
-      });
+  screenStream=await navigator.mediaDevices
+   .getDisplayMedia({video:true,audio:false});
 
-    $("mirrorVideo").srcObject=stream;
+  $("screenPreview").srcObject=screenStream;
+  $("screenStatus").textContent=
+   "Yerel ekran ön izlemesi açık.";
 
-    status.textContent=
-      "Paylaşılan ekranın yerel ön izlemesi açık.";
-
-    stream.getVideoTracks()[0].onended=()=>{
-      stopScreen();
-    };
-
-  }catch(error){
-    status.textContent=
-      "Paylaşım başlatılamadı: "+error.message;
-  }
+  screenStream.getVideoTracks()[0].onended=()=>{
+   stopScreenPreview();
+  };
+ }catch(e){
+  $("screenStatus").textContent=e.message;
+ }
 }
 
-function stopScreen(){
-  if(stream){
-    stream.getTracks().forEach(
-      track=>track.stop()
-    );
-    stream=null;
-  }
-
-  $("mirrorVideo").srcObject=null;
-  $("mirrorStatus").textContent=
-    "Ekran paylaşımı kapalı.";
+function stopScreenPreview(){
+ if(screenStream){
+  screenStream.getTracks().forEach(t=>t.stop());
+  screenStream=null;
+ }
+ $("screenPreview").srcObject=null;
+ $("screenStatus").textContent="Paylaşım kapalı.";
 }
 
-/* TÜRKÇE SESLİ KONTROL */
+/* =================================================
+   SESLİ KOMUT SİSTEMİ
+   ================================================= */
 
-const SR=window.SpeechRecognition||
-  window.webkitSpeechRecognition;
+const SpeechAPI=
+ window.SpeechRecognition||
+ window.webkitSpeechRecognition;
 
-let voice=null;
-let voiceOn=false;
+let recognition=null;
+let voiceEnabled=false;
 let voiceSession=0;
-let voiceRetryTimer=null;
+let voiceRetry=null;
 let voiceFailures=0;
 
-function voiceStatus(text){
-  $("homeVoiceStatus").textContent=text;
-  $("voiceStatus").textContent="🎙 "+text;
-  $("voiceDot").classList.toggle(
-    "live",voiceOn
-  );
+function setVoiceStatus(message){
+ $("voiceHomeStatus").textContent=message;
+ $("voiceSettingsStatus").textContent=message;
 }
 
 function stopVoice(){
-  voiceOn=false;
-  voiceSession++;
-  clearTimeout(voiceRetryTimer);
+ voiceEnabled=false;
+ voiceSession++;
+ clearTimeout(voiceRetry);
 
-  if(voice){
-    const old=voice;
-    voice=null;
-    try{old.abort()}catch(e){}
-  }
+ if(recognition){
+  const old=recognition;
+  recognition=null;
+  try{old.abort()}catch(e){}
+ }
 
-  voiceStatus("Mikrofon kapalı");
+ setVoiceStatus("Mikrofon kapalı");
 }
 
 function scheduleVoice(session,delay){
-  clearTimeout(voiceRetryTimer);
+ clearTimeout(voiceRetry);
 
-  if(!voiceOn||session!==voiceSession)return;
+ if(!voiceEnabled||session!==voiceSession)return;
 
-  voiceRetryTimer=setTimeout(()=>{
-    if(!document.hidden&&voiceOn&&
-       session===voiceSession){
-      listenVoice(session);
-    }
-  },delay);
+ voiceRetry=setTimeout(()=>{
+  if(voiceEnabled&&session===voiceSession&&
+     !document.hidden){
+   listenVoice(session);
+  }
+ },delay);
 }
 
 function listenVoice(session){
-  if(!SR||!voiceOn||session!==voiceSession||
-     document.hidden)return;
+ if(!SpeechAPI||!voiceEnabled||
+    session!==voiceSession||
+    document.hidden||recognition)return;
 
-  if(voice)return;
+ const rec=new SpeechAPI();
+ recognition=rec;
 
-  const rec=new SR();
-  voice=rec;
+ rec.lang="tr-TR";
+ rec.continuous=true;
+ rec.interimResults=false;
+ rec.maxAlternatives=1;
 
-  rec.lang="tr-TR";
-  rec.continuous=true;
-  rec.interimResults=false;
-  rec.maxAlternatives=1;
+ rec.onstart=()=>{
+  voiceFailures=0;
+  setVoiceStatus("Mercedes komutu bekleniyor");
+ };
 
-  rec.onstart=()=>{
-    voiceFailures=0;
-    voiceStatus("Dinleniyor · Mercedes deyin");
-  };
+ rec.onresult=event=>{
+  for(let i=event.resultIndex;
+      i<event.results.length;i++){
 
-  rec.onresult=event=>{
-    for(let i=event.resultIndex;
-        i<event.results.length;i++){
+   if(!event.results[i].isFinal)continue;
 
-      if(!event.results[i].isFinal)continue;
-
-      const spoken=
-        event.results[i][0].transcript;
-
-      handleVoice(spoken);
-    }
-  };
-
-  rec.onerror=event=>{
-    const error=event.error;
-
-    if(error==="not-allowed"||
-       error==="service-not-allowed"){
-      stopVoice();
-      voiceStatus("Mikrofon izni verilmedi");
-      return;
-    }
-
-    if(error==="audio-capture"){
-      stopVoice();
-      voiceStatus("Mikrofon kullanılamıyor");
-      return;
-    }
-
-    voiceStatus("Ses tanıma: "+error);
-  };
-
-  rec.onend=()=>{
-    if(voice===rec)voice=null;
-
-    if(!voiceOn||session!==voiceSession)return;
-
-    voiceFailures++;
-
-    const delay=Math.min(
-      700*Math.pow(1.5,Math.min(voiceFailures,6)),
-      6000
-    );
-
-    scheduleVoice(session,delay);
-  };
-
-  try{
-    rec.start();
-  }catch(e){
-    voice=null;
-    scheduleVoice(session,2000);
+   handleVoice(event.results[i][0].transcript);
   }
+ };
+
+ rec.onerror=event=>{
+  if(["not-allowed","service-not-allowed",
+      "audio-capture"].includes(event.error)){
+   stopVoice();
+   setVoiceStatus("Mikrofon kullanılamıyor");
+   return;
+  }
+
+  setVoiceStatus("Ses tanıma: "+event.error);
+ };
+
+ rec.onend=()=>{
+  if(recognition===rec)recognition=null;
+  if(!voiceEnabled||session!==voiceSession)return;
+
+  voiceFailures++;
+
+  const delay=Math.min(
+   800*Math.pow(1.5,Math.min(voiceFailures,6)),
+   6000
+  );
+
+  scheduleVoice(session,delay);
+ };
+
+ try{rec.start()}
+ catch(e){
+  recognition=null;
+  scheduleVoice(session,2000);
+ }
 }
 
 function startVoice(){
-  if(!SR){
-    voiceStatus(
-      "Bu tarayıcı ses tanımayı desteklemiyor"
-    );
-    return;
-  }
+ if(!SpeechAPI){
+  setVoiceStatus("Ses tanıma desteklenmiyor");
+  toast("Bu tarayıcı sesli komut desteklemiyor");
+  return;
+ }
 
-  if(voiceOn){
-    toast("Mikrofon zaten açık");
-    return;
-  }
+ if(voiceEnabled){
+  toast("Mikrofon zaten açık");
+  return;
+ }
 
-  voiceOn=true;
-  voiceFailures=0;
-  voiceSession++;
-
-  listenVoice(voiceSession);
+ voiceEnabled=true;
+ voiceFailures=0;
+ voiceSession++;
+ listenVoice(voiceSession);
 }
 
 function handleVoice(spoken){
-  const text=norm(spoken);
+ const text=normalize(spoken);
+ if(!text.startsWith("mercedes"))return;
 
-  if(!text.startsWith("mercedes"))return;
+ const cmd=text.replace(/^mercedes\s*/,"").trim();
+ if(!cmd)return;
 
-  const cmd=text.replace(/^mercedes\s*/,"").trim();
+ setVoiceStatus("Komut: "+spoken);
 
-  if(!cmd)return;
+ if(cmd.includes("mikrofonu kapat")||
+    cmd.includes("dinlemeyi durdur")){
+  stopVoice();return;
+ }
 
-  voiceStatus("Komut: "+spoken);
+ if(cmd.includes("tam ekrandan cik")){
+  setTheater(false);return;
+ }
 
-  if(cmd.includes("mikrofonu kapat")||
-     cmd.includes("dinlemeyi durdur")){
-    stopVoice();
-    return;
+ if(cmd.includes("tam ekran")){
+  if(current)setTheater(true);
+  return;
+ }
+
+ if(cmd.includes("sonraki")||
+    cmd.includes("ileri kanal")){
+  step(1);return;
+ }
+
+ if(cmd.includes("onceki")||
+    cmd.includes("geri kanal")){
+  step(-1);return;
+ }
+
+ if(cmd.includes("sesi yukselt")||
+    cmd.includes("ses arttir")){
+  changeVolume(.1);return;
+ }
+
+ if(cmd.includes("sesi kis")){
+  changeVolume(-.1);return;
+ }
+
+ if(cmd.includes("sesi kapat")||
+    cmd.includes("sessize al")){
+  setMuted(true);return;
+ }
+
+ if(cmd.includes("sesi ac")){
+  setMuted(false);return;
+ }
+
+ if(cmd.includes("duraklat")||
+    cmd.includes("yayini durdur")){
+  if(!video.paused)togglePlayback();
+  return;
+ }
+
+ if(cmd.includes("devam et")||
+    cmd.includes("yayini baslat")||
+    cmd==="oynat"){
+  if(video.paused)togglePlayback();
+  return;
+ }
+
+ if(cmd.includes("yeniden baglan")||
+    cmd.includes("yayini yenile")){
+  retryCurrent();return;
+ }
+
+ if(cmd.includes("favoriye ekle")){
+  if(current&&!favorites.has(current[0])){
+   toggleFavorite(current[0]);
   }
+  return;
+ }
 
-  if(cmd.includes("tam ekrandan cik")||
-     cmd.includes("tam ekrani kapat")){
-    setTheater(false);
-    return;
-  }
+ if(cmd.includes("favorileri ac")){
+  showPage("favorites");return;
+ }
 
-  if(cmd.includes("tam ekran")){
-    if(current)setTheater(true);
-    return;
-  }
+ if(cmd.includes("televizyon ac")||
+    cmd==="tv"){
+  showPage("tv");return;
+ }
 
-  if(cmd.includes("sonraki")||
-     cmd.includes("ileri kanal")||
-     cmd.includes("kanal degistir")){
-    step(1);
-    return;
-  }
+ if(cmd==="radyo"||
+    cmd==="radyo ac"){
+  showPage("radio");return;
+ }
 
-  if(cmd.includes("onceki")||
-     cmd.includes("geri kanal")){
-    step(-1);
-    return;
-  }
+ if(cmd.includes("ana sayfa")){
+  showPage("home");return;
+ }
 
-  if(cmd.includes("sesi yukselt")||
-     cmd.includes("ses arttir")||
-     cmd.includes("sesi ac")){
-    if(cmd.includes("yukselt")||
-       cmd.includes("arttir")){
-      changeVolume(.1);
-    }else{
-      setMuted(false);
-    }
-    return;
-  }
+ if(cmd.includes("cocuk kanallari")){
+  showPage("children");return;
+ }
 
-  if(cmd.includes("sesi kis")){
-    changeVolume(-.1);
-    return;
-  }
+ const matches=ALL.filter(ch=>{
+  const name=normalize(ch[0]);
 
-  if(cmd.includes("sesi kapat")||
-     cmd.includes("sessize al")){
-    setMuted(true);
-    return;
-  }
+  return cmd===name||
+   cmd===name+" ac"||
+   cmd.includes(name+" ac")||
+   cmd.includes(name+" kanalini ac")||
+   cmd.includes(name+" radyosunu ac");
+ }).sort((a,b)=>b[0].length-a[0].length);
 
-  if(cmd.includes("yayini durdur")||
-     cmd.includes("duraklat")){
-    if(!media.paused)togglePlayback();
-    return;
-  }
+ if(matches.length){
+  openChannel(matches[0]);
+  return;
+ }
 
-  if(cmd.includes("yayini baslat")||
-     cmd.includes("devam et")||
-     cmd.includes("oynat")){
-    if(media.paused)togglePlayback();
-    return;
-  }
-
-  if(cmd.includes("yeniden baglan")||
-     cmd.includes("yayini yenile")){
-    retryCurrent();
-    return;
-  }
-
-  if(cmd.includes("favorileri ac")){
-    showPage("favorites");
-    return;
-  }
-
-  if(cmd.includes("televizyon ac")||
-     cmd==="tv ac"||
-     cmd==="tv"){
-    showPage("tv");
-    return;
-  }
-
-  if(cmd.includes("radyo ac")||
-     cmd==="radyo"){
-    showPage("radio");
-    return;
-  }
-
-  if(cmd.includes("ana sayfa")){
-    showPage("home");
-    return;
-  }
-
-  if(cmd.includes("cocuk kanallari")){
-    showPage("children");
-    return;
-  }
-
-  if(cmd.includes("youtube")){
-    showPage("youtube");
-    return;
-  }
-
-  if(cmd.includes("favoriye ekle")){
-    if(current&&!favorites.has(current[0])){
-      toggleFavorite(current[0]);
-    }
-    return;
-  }
-
-  if(cmd.includes("favoriden cikar")){
-    if(current&&favorites.has(current[0])){
-      toggleFavorite(current[0]);
-    }
-    return;
-  }
-
-  // Kanal ismini algıla.
-  const matches=ALL
-    .filter(channel=>{
-      const name=norm(channel[0]);
-      return cmd===name||
-        cmd===name+" ac"||
-        cmd.includes(name+" ac")||
-        cmd.includes(name+" kanalini ac")||
-        cmd.includes(name+" radyosunu ac");
-    })
-    .sort((a,b)=>b[0].length-a[0].length);
-
-  if(matches.length){
-    openChannel(matches[0]);
-    return;
-  }
-
-  toast("Komut anlaşılmadı: "+spoken);
+ toast("Komut anlaşılmadı");
 }
 
-/* SAYFA GÖRÜNÜRLÜĞÜ */
-
-document.addEventListener(
-  "visibilitychange",()=>{
-
-    if(document.hidden){
-      clearTimeout(voiceRetryTimer);
-
-      if(voice){
-        try{voice.abort()}catch(e){}
-      }
-    }else if(voiceOn&&!voice){
-      scheduleVoice(voiceSession,700);
-    }
-  }
-);
-
-/* KLAVYE / KUMANDA */
+/* =================================================
+   KLAVYE / KUMANDA
+   ================================================= */
 
 document.addEventListener("keydown",event=>{
-  const tag=document.activeElement?.tagName;
+ const tag=document.activeElement?.tagName;
 
-  if(tag==="INPUT"||tag==="TEXTAREA")return;
+ if(tag==="INPUT"||tag==="TEXTAREA")return;
 
-  if(event.key==="Escape"){
-    if($("player").classList.contains("theater")){
-      setTheater(false);
-    }else if(playerOpen){
-      closePlayer();
-    }
+ if(event.key==="Escape"){
+  if($("player").classList.contains("theater")){
+   setTheater(false);
+  }else if($("player").classList.contains("open")){
+   closePlayer();
   }
+ }
 
-  if(event.key===" "&&playerOpen){
-    event.preventDefault();
-    togglePlayback();
-  }
-
-  // Ok tuşları, butonların doğal odak
-  // davranışını bozmadan kullanılabilir.
+ if(event.key===" "&&current){
+  event.preventDefault();
+  togglePlayback();
+ }
 });
 
-/* BAŞLANGIÇ */
+document.addEventListener("visibilitychange",()=>{
+ if(document.hidden){
+  clearTimeout(voiceRetry);
+  if(recognition){
+   try{recognition.abort()}catch(e){}
+  }
+ }else if(voiceEnabled&&!recognition){
+  scheduleVoice(voiceSession,700);
+ }
+});
+
+/* =================================================
+   BAŞLANGIÇ
+   ================================================= */
 
 buildEqualizer();
 buildPalette();
 updateCounts();
 
-const last=storeGet("sm_last_channel",null);
+const last=getSaved("sm_last_channel",null);
+
 if(last){
-  current=ALL.find(x=>x[0]===last)||null;
-  if(current){
-    $("nowName").textContent=current[0];
-  }
+ current=ALL.find(x=>x[0]===last)||null;
+
+ if(current){
+  updateNowPlaying(current);
+ }
 }
 
-if(!SR){
-  voiceStatus(
-    "Bu tarayıcı ses tanımayı desteklemiyor"
-  );
+if(!SpeechAPI){
+ setVoiceStatus("Ses tanıma desteklenmiyor");
 }
 
 window.addEventListener("pagehide",()=>{
-  stopScreen();
-  stopPlayback();
-  stopVoice();
+ stopScreenPreview();
+ stopStream();
+ stopVoice();
 });
 
 showPage("home");
